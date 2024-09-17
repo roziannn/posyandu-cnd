@@ -1,0 +1,145 @@
+{
+  "menu": [
+    {
+      "url": "dashboard/kades",
+      "name": "Dashboard",
+      "icon": "menu-icon tf-icons bi bi-house-door",
+      "slug": "dashboard",
+      "roles": [
+        "kades"
+      ]
+    },
+    {
+      "url": "dashboard/petugas",
+      "name": "Dashboard",
+      "icon": "menu-icon tf-icons bi bi-house-door",
+      "slug": "dashboard",
+      "roles": [
+        "petugas"
+      ]
+    },
+    {
+      "url": "dashboard/ortu",
+      "name": "Dashboard",
+      "icon": "menu-icon tf-icons bi bi-house-door",
+      "slug": "dashboard",
+      "roles": [
+        "ortu"
+      ]
+    },
+    {
+      "url": "dashboard/user",
+      "name": "User",
+      "icon": "menu-icon tf-icons bi bi-people-fill",
+      "slug": "dashboard-user",
+      "roles": [
+        "petugas"
+      ]
+    },
+    {
+      "url": "dashboard/jadwal",
+      "name": "Jadwal Posyandu",
+      "icon": "menu-icon tf-icons bi bi-calendar-event",
+      "slug": "dashboard-jadwal",
+      "roles": [
+        "petugas"
+      ]
+    },
+    {
+      "url": "dashboard/pendaftaran",
+      "name": "Pendaftaran",
+      "icon": "menu-icon tf-icons bi bi-person-lines-fill",
+      "slug": "dashboard-pendaftaran",
+      "roles": [
+        "petugas",
+        "ortu"
+      ]
+    },
+    {
+      "name": "Anthropometri",
+      "icon": "menu-icon tf-icons bi bi-clipboard-plus",
+      "slug": "dashboard/anthropometri",
+      "submenu": [
+        {
+          "url": "dashboard/anthropometri/laki-laki",
+          "name": "Data Laki-Laki",
+          "slug": "anthropometri.indexLakiLaki"
+        },
+        {
+          "url": "dashboard/anthropometri/perempuan",
+          "name": "Data Perempuan",
+          "slug": "anthropometri.indexPerempuan"
+        }
+      ],
+      "roles": [
+        "petugas"
+      ]
+    },
+    {
+      "name": "Analisis Gizi",
+      "icon": "menu-icon tf-icons bi bi-clipboard-data",
+      "slug": "dashboard-analisis",
+      "submenu": [
+        {
+          "url": "dashboard/analisis/batas-laki",
+          "name": "Ambang Batas Laki-Laki",
+          "slug": "dashbboard/analisis/batas-laki"
+        },
+        {
+          "url": "dashboard/analisis/batas-perempuan",
+          "name": "Ambang Batas Perempuan",
+          "slug": "dashboard-analisis/batas-perempuan"
+        },
+        {
+          "url": "dashboard/analisis/hitung-laki",
+          "name": "Hitung Gizi Laki-Laki",
+          "slug": "dashboard-analisis/hitung-laki"
+        },
+        {
+          "url": "analisis/hitung-perempuan",
+          "name": "Hitung Perempuan",
+          "slug": "analisis-hitung-perempuan"
+        }
+      ],
+      "roles": [
+        "bidan"
+      ]
+    },
+    {
+      "url": "dashboard/pertumbuhan",
+      "name": "Pertumbuhan",
+      "icon": "menu-icon tf-icons bi bi-graph-up",
+      "slug": "dashboard-pertumbuhan",
+      "roles": [
+        "ortu"
+      ]
+    },
+    {
+      "url": "dashboard/notifikasi",
+      "name": "Notifikasi",
+      "icon": "menu-icon tf-icons bi bi-chat-left-dots",
+      "slug": "dashboard-notifikasi",
+      "roles": [
+        "petugas",
+        "ortu"
+      ]
+    },
+    {
+      "url": "dashboard/laporan",
+      "name": "Laporan",
+      "icon": "menu-icon tf-icons bi bi-journal-check",
+      "slug": "dashboard/laporan",
+      "submenu": [
+        {
+          "url": "dashboard/laporan/pendaftar-posyandu",
+          "name": "Pendaftar Posyandu",
+          "slug": "laporan.pendaftar"
+        }
+      ],
+      "roles": [
+        "kades",
+        "petugas"
+      ]
+    }
+  ]
+}
