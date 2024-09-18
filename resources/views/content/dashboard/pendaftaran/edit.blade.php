@@ -81,11 +81,11 @@
                                         <label class="form-label" for="jenis_kelamin">Jenis Kelamin</label>
                                         <select class="form-control" id="jenis_kelamin" name="jenis_kelamin">
                                             <option value="">Pilih Jenis Kelamin</option>
-                                            <option value="Laki - Laki"
-                                                {{ $pendaftarans->jenis_kelamin == 'Laki - Laki' ? 'selected' : '' }}>Laki -
+                                            <option value="laki-laki"
+                                                {{ $pendaftarans->jenis_kelamin == 'laki-laki' ? 'selected' : '' }}>Laki -
                                                 Laki</option>
-                                            <option value="Perempuan"
-                                                {{ $pendaftarans->jenis_kelamin == 'Perempuan' ? 'selected' : '' }}>
+                                            <option value="perempuan"
+                                                {{ $pendaftarans->jenis_kelamin == 'perempuan' ? 'selected' : '' }}>
                                                 Perempuan</option>
                                         </select>
                                     </div>

@@ -63,10 +63,10 @@
                                 <th>No</th>
                                 <th>NIK </th>
                                 <th>NAMA BALITA</th>
-                                <th>JENIS KELAMIN </th>
+                                <th>JK </th>
                                 <th>TANGGAL LAHIR</th>
                                 <th>NAMA ORANG TUA </th>
-                                <th>NAMA POSYANDU</th>
+                                <th>POSYANDU</th>
                                 <th>DUKUH </th>
                                 <th>Actions</th>
                             </tr>
@@ -84,11 +84,13 @@
                                     <td>{{ $pendaftaran->dukuh }}</td>
 
                                     <td>
-
-                                        <a href="/dashboard/editpendaftaran/{{ $pendaftaran->id }}" class="btn btn-warning"
-                                            onclick="return confirmEdit()"><i class="bx bx-edit-alt me-1"></i></a>
-                                        <a href="/dashboard/hapuspendaftaran/{{ $pendaftaran->id }}" class="btn btn-danger"
-                                            onclick="return confirmDelete()"><i class="bx bx-trash me-1"></i></a>
+                                        <a href="javascript:void(0);" class="btn btn-warning"
+                                            onclick="return confirmEdit({{ $pendaftaran->id }})"><i
+                                                class="bx bx-edit-alt me-1"></i></a>
+                                        <a href="javascript:void(0);" class="btn btn-danger"
+                                            onclick="confirmDelete({{ $pendaftaran->id }})">
+                                            <i class="bx bx-trash me-1"></i>
+                                        </a>
                                         <a href="/dashboard/detailpendaftaran/{{ $pendaftaran->id }}"
                                             class="btn btn-primary"><i class="bi bi-eye-fill"></i></a>
                                     </td>
@@ -139,11 +141,13 @@
                                     <td>{{ $pendaftaran->dukuh }}</td>
 
                                     <td>
-
-                                        <a href="/dashboard/editpendaftaran/{{ $pendaftaran->id }}" class="btn btn-warning"
-                                            onclick="return confirmEdit()"><i class="bx bx-edit-alt me-1"></i></a>
-                                        <a href="/dashboard/hapuspendaftaran/{{ $pendaftaran->id }}" class="btn btn-danger"
-                                            onclick="return confirmDelete()"><i class="bx bx-trash me-1"></i></a>
+                                        <a href="javascript:void(0);" class="btn btn-warning"
+                                            onclick="return confirmEdit({{ $pendaftaran->id }})"><i
+                                                class="bx bx-edit-alt me-1"></i></a>
+                                        <a href="javascript:void(0);" class="btn btn-danger"
+                                            onclick="confirmDelete({{ $pendaftaran->id }})">
+                                            <i class="bx bx-trash me-1"></i>
+                                        </a>
                                         <a href="/dashboard/detailpendaftaran/{{ $pendaftaran->id }}"
                                             class="btn btn-primary"><i class="bi bi-eye-fill"></i></a>
                                     </td>
@@ -159,13 +163,45 @@
 
     <!--/ Striped Rows -->
     <script>
-        function confirmDelete() {
-            return confirm('Apakah Anda yakin ingin menghapus data ini?');
+        function confirmDelete(id) {
+            Swal.fire({
+                title: 'Apakah kamu yakin?',
+                text: "Data ini akan dihapus secara permanen!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/dashboard/hapuspendaftaran/' + id;
+                    Swal.fire({
+                        title: "Berhasil!",
+                        text: "Data berhasil dihapus.",
+                        icon: "success",
+                        timer: 3000,
+                        showConfirmButton: false
+                    });
+                }
+            });
         }
     </script>
     <script>
-        function confirmEdit() {
-            return confirm('Apakah Anda yakin ingin mengedit data ini?');
+        function confirmEdit(id) {
+            Swal.fire({
+                title: 'Edit data ini?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/dashboard/editpendaftaran/' + id;
+                }
+            });
         }
     </script>
 

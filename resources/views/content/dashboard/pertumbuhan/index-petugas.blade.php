@@ -28,7 +28,7 @@
             <div class="d-flex justify-content-between">
 
                 <h4 class="card-title">Pertumbuhan Balita</h4>
-                <a href="#" class="btn btn-primary">Lihat Detail Balita</a>
+                <a href="{{ route('anthropometri.observasi', $data->id) }}" class="btn btn-primary">Detail Observasi</a>
             </div>
         </div>
         <div class="card-body">
@@ -55,8 +55,17 @@
                     </div>
                 </div>
                 <hr>
+
                 @if (is_numeric($data->z_score))
+                    <div class="my-3 text-end">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-outline-secondary">
+                                < previous </button>
+                                    <button type="button" class="btn btn-outline-secondary">next > </button>
+                        </div>
+                    </div>
                     <div class="col-md-12 mb-3" id="chartStat"></div>
+
                     <div id="description">
                         <div class="table-responsive text-nowrap">
                             <table class="table">

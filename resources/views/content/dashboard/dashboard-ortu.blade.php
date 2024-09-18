@@ -20,20 +20,87 @@
                     height: 350
                 },
                 series: [{
-                    name: 'Total Pendaftar',
-                    data: [{{ $totalLaki }}, {{ $totalPerempuan }}]
-                }],
+                        name: 'Total Pendaftar',
+                        data: [{{ $totalLaki }}]
+                    },
+                    {
+                        name: 'Total Pendaftar',
+                        data: [{{ $totalPerempuan }}]
+                    }
+                ],
                 xaxis: {
-                    categories: ['Laki-laki', 'Perempuan']
+                    categories: ['Laki-laki', 'Perempuan'],
+                    title: {
+                        text: 'Jenis Kelamin'
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: 'Total'
+                    }
                 },
                 title: {
-                    text: 'Jumlah Total Pendaftar Posyandu',
+                    text: 'Jumlah Balita Terdaftar Posyandu',
                     align: 'center'
                 },
-                colors: ['#1f77b4', '#ff7f0e']
+                colors: ['#00E396', '#FF6600']
             };
 
-            var chart = new ApexCharts(document.querySelector("#chart"), options);
+            var chart = new ApexCharts(document.querySelector("#chartTotalDaftar"), options);
+            chart.render();
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var options = {
+                series: [{
+                        name: 'Stunting',
+                        type: 'line',
+                        data: @json($data['stunting'])
+                    },
+                    {
+                        name: 'Normal/Tidak Stunting',
+                        type: 'line',
+                        data: @json($data['normal'])
+                    }
+                ],
+                chart: {
+                    height: 350,
+                    type: 'line'
+                },
+                colors: ['#FF4560', '#00E396'],
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: 'smooth'
+                },
+                xaxis: {
+                    categories: @json($data['months']),
+                    title: {
+                        text: 'Bulan'
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: 'Jumlah Anak'
+                    },
+                    labels: {
+                        formatter: function(value) {
+                            return Math.round(value);
+                        }
+                    }
+                },
+                legend: {
+                    show: true,
+                    position: 'top',
+                    horizontalAlign: 'center'
+                },
+                title: {
+                    text: 'Kasus Stunting Cendono 2024'
+                }
+            };
+
+            var chart = new ApexCharts(document.querySelector("#chartStunting"), options);
             chart.render();
         });
     </script>
@@ -46,10 +113,13 @@
                 <div class="d-flex align-items-end row">
                     <div class="col-sm-7">
                         <div class="card-body">
-                            <h5 class="card-title text-primary">Selamat datang {{ auth()->user()->username }}
-                            </h5>
-                            <p class="mb-4">You have done <span class="fw-medium">72%</span> more sales today. Check your
-                                new badge in your profile.</p>
+                            <h4 class="card-title text-primary">Selamat datang, {{ auth()->user()->username }}
+                            </h4>
+                            <p class="mb-4">Anda masuk sebagai <span class="fw-medium">orang tua</span>. <a
+                                    href="{{ route('dashboard.pertumbuhan') }}" class="text-info"> Lihat pertumbuhan
+                                    balita
+                                </a>
+                            </p>
                         </div>
                     </div>
                     <div class="col-sm-5 text-center text-sm-left">
@@ -65,7 +135,14 @@
         <div class="col-lg-6 mb-4">
             <div class="card">
                 <div class="card-body">
-                    <div id="chart"></div>
+                    <div id="chartTotalDaftar"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div id="chartStunting"></div>
                 </div>
             </div>
         </div>

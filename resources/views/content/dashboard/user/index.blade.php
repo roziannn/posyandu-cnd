@@ -59,11 +59,13 @@
                                 <td>{{ $user->role }}</td>
 
                                 <td>
-
-                                    <a href="/dashboard/edituser/{{ $user->id }}" class="btn btn-warning"
-                                        onclick="return confirmEdit()"><i class="bx bx-edit-alt me-1"></i></a>
-                                    <a href="/dashboard/hapususer/{{ $user->id }}" class="btn btn-danger"
-                                        onclick="return confirmDelete()"><i class="bx bx-trash me-1"></i></a>
+                                    <a href="javascript:void(0);" class="btn btn-warning"
+                                        onclick="return confirmEdit({{ $user->id }})"><i
+                                            class="bx bx-edit-alt me-1"></i></a>
+                                    <a href="javascript:void(0);" class="btn btn-danger"
+                                        onclick="confirmDelete({{ $user->id }})">
+                                        <i class="bx bx-trash me-1"></i>
+                                    </a>
                                     <a href="/dashboard/detailuser/{{ $user->id }}" class="btn btn-primary"><i
                                             class="bi bi-eye-fill"></i></a>
                                 </td>
@@ -79,13 +81,45 @@
 
     <!--/ Striped Rows -->
     <script>
-        function confirmDelete() {
-            return confirm('Apakah Anda yakin ingin menghapus data ini?');
+        function confirmDelete(id) {
+            Swal.fire({
+                title: 'Apakah kamu yakin?',
+                text: "Data ini akan dihapus secara permanen!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/dashboard/hapususer/' + id;
+                    Swal.fire({
+                        title: "Berhasil!",
+                        text: "Data berhasil dihapus.",
+                        icon: "success",
+                        timer: 3000,
+                        showConfirmButton: false
+                    });
+                }
+            });
         }
     </script>
     <script>
-        function confirmEdit() {
-            return confirm('Apakah Anda yakin ingin mengedit data ini?');
+        function confirmEdit(id) {
+            Swal.fire({
+                title: 'Edit data ini?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/dashboard/edituser/' + id;
+                }
+            });
         }
     </script>
 

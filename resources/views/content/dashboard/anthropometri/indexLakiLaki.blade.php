@@ -66,12 +66,15 @@
                                 <td>{{ $data->tinggi_badan }}</td>
                                 <td>{{ $data->berat_badan }}</td>
                                 <td>
-                                    <a href="{{ route('anthropometri.edit', $data->id) }}" class="btn btn-warning"
-                                        onclick="return confirmEdit()"><i class="bx bx-edit-alt me-1"></i></a>
-                                    <a href="{{ route('anthropometri.delete', $data->id) }}" class="btn btn-danger"
-                                        onclick="return confirmDelete()"><i class="bx bx-trash me-1"></i></a>
-                                    <a href="/dashboard/detailanthropometri/{{ $data->id }}" class="btn btn-primary"><i
-                                            class="bi bi-eye-fill"></i></a>
+                                    <a href="javascript:void(0);" class="btn btn-warning"
+                                        onclick="return confirmEdit({{ $data->id }})"><i
+                                            class="bx bx-edit-alt me-1"></i></a>
+                                    <a href="javascript:void(0);" class="btn btn-danger"
+                                        onclick="confirmDelete({{ $data->id }})">
+                                        <i class="bx bx-trash me-1"></i>
+                                    </a>
+                                    <a href="{{ route('pendaftaran.show', $data->pendaftaran_id) }}"
+                                        class="btn btn-primary"><i class="bi bi-eye-fill"></i></a>
                                 </td>
                                 <td>
                                     <a href="{{ route('anthropometri.observasi', $data->id) }}" class="btn btn-success"><i
@@ -93,12 +96,44 @@
         </div>
 
         <script>
-            function confirmDelete() {
-                return confirm('Apakah Anda yakin ingin menghapus data ini?');
+            function confirmDelete(id) {
+                Swal.fire({
+                    title: 'Apakah kamu yakin?',
+                    text: "Data ini akan dihapus secara permanen!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/dashboard/anthropometri/delete/' + id;
+                        Swal.fire({
+                            title: "Berhasil!",
+                            text: "Data berhasil dihapus.",
+                            icon: "success",
+                            timer: 3000,
+                            showConfirmButton: false
+                        });
+                    }
+                });
             }
 
-            function confirmEdit() {
-                return confirm('Apakah Anda yakin ingin mengedit data ini?');
+            function confirmEdit(id) {
+                Swal.fire({
+                    title: 'Edit data ini?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/dashboard/anthropometri/edit/' + id;
+                    }
+                });
             }
         </script>
 

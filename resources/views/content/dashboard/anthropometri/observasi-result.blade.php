@@ -21,7 +21,8 @@
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <h4 class="card-title">Hasil Observasi Stunting</h4>
-                <a href="#" class="btn btn-primary">Lihat Detail Balita</a>
+                <a href="{{ route('pertumbuhan.petugas', $dataObserv->id) }}" class="btn btn-primary">Lihat Grafik
+                    Pertumbuhan</a>
             </div>
         </div>
         <div class="card-body">
@@ -49,17 +50,22 @@
                 <hr>
                 @if (is_numeric($dataObserv->z_score))
                     <strong>Status Stunting: <br></strong>
-                    <h5>
-                        <span class="mt-3">
-                            @if ($result['status'] == 'Stunting')
-                                <div class="badge bg-danger mt-2">Stunting</div>
-                            @elseif ($result['status'] == 'Tinggi')
-                                <div class="badge bg-warning mt-2">Tinggi/Melebihi Batas Normal</div>
-                            @else
-                                <div class="badge bg-success mt-2">Tidak Stunting/Normal</div>
-                            @endif
-                        </span>
-                    </h5>
+                    <div class="d-flex align-items-center">
+                        <h5>
+                            <span class="mt-3">
+                                @if ($result['status'] == 'Stunting')
+                                    <div class="badge bg-danger mt-2">Stunting</div>
+                                @elseif ($result['status'] == 'Tinggi')
+                                    <div class="badge bg-warning mt-2">Tinggi/Melebihi Batas Normal</div>
+                                @else
+                                    <div class="badge bg-success mt-2">Tidak Stunting/Normal</div>
+                                @endif
+                            </span>
+                        </h5>
+                        {{-- <a href="{{ route('pertumbuhan.petugas', $dataObserv->id) }}" class="small text-primary ms-3">
+                            Lihat grafik pertumbuhan
+                        </a> --}}
+                    </div>
                     <strong>Keterangan<br></strong>
                     <p> {!! $result['keterangan'] !!}</p>
                 @else

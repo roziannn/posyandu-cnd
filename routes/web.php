@@ -51,6 +51,7 @@ use App\Http\Controllers\pages\AccountSettingsConnections;
 use App\Http\Controllers\pages\AccountSettingsNotifications;
 use App\Http\Controllers\authentications\ForgotPasswordBasic;
 use App\Http\Controllers\DashboardPertumbuhanController;
+use App\Http\Controllers\DataPertumbuhanController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\main_dashboard\DashboardKadesController;
 use App\Http\Controllers\main_dashboard\DashboardOrtuController;
@@ -120,6 +121,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/dashboard/anthropometri/edit/{id}', [DashboardAnthropometriController::class, 'edit'])->name('anthropometri.edit');
     Route::get('/dashboard/anthropometri/delete/{id}', [DashboardAnthropometriController::class, 'destroy'])->name('anthropometri.delete');
+    Route::get('/dashboard/anthropometri/riwayat/delete/{id}', [DashboardAnthropometriController::class, 'destroyRiwayat'])->name('anthropometri.deleteRiwayat');
   });
 
   Route::group(['middleware' => ['role:ortu']], function () {
@@ -140,6 +142,8 @@ Route::group(['middleware' => ['auth']], function () {
       '/dashboard/anthropometri/pertumbuhan/{id}',
       [DashboardPertumbuhanController::class, 'indexPetugas']
     )->name('pertumbuhan.petugas');
+
+    Route::resource('pertumbuhan', DataPertumbuhanController::class);
   });
 
   Route::group(['middleware' => ['role:ortu']], function () {

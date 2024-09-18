@@ -11,20 +11,23 @@ return new class extends Migration
    */
   public function up(): void
   {
-    Schema::create('anthropometris', function (Blueprint $table) {
+    Schema::create('pertumbuhans', function (Blueprint $table) {
       $table->id();
       $table->foreignId('pendaftaran_id')->constrained('pendaftarans')->onDelete('cascade');
-      $table->string('jenis_kelamin');
+      $table->foreignId('anthropometri_id')->constrained('anthropometris')->onDelete('cascade');
+
+      $table->integer('bulan');
+      $table->integer('tahun');
       $table->float('tinggi_badan');
       $table->float('berat_badan');
+      $table->string('cara_ukur');
 
+      //added 9/18/2024
       $table->string('status_stunting');
       $table->string('status_gizi');
       $table->integer('usia');
       $table->string('z_score');
 
-      // $table->integer('bulan');
-      // $table->integer('tahun');
       $table->timestamps();
     });
   }
@@ -34,6 +37,6 @@ return new class extends Migration
    */
   public function down(): void
   {
-    Schema::dropIfExists('anthropometris');
+    Schema::dropIfExists('pertumbuhans');
   }
 };

@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\Pendaftaran;
 use Illuminate\Http\Request;
 use App\Models\Anthropometri;
+use App\Models\Pertumbuhan;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 
@@ -187,15 +188,6 @@ class DashboardAnthropometriController extends Controller
       // Hitung z-score
       $zScore = ($tinggiBadan - $median) / ($plus2SD - $median);
 
-      //  status
-      // if ($tinggiBadan < $minus2SD) {
-      //   $status = 'Stunting';
-      // } elseif ($tinggiBadan >= $minus2SD && $tinggiBadan <= $plus2SD) {
-      //   $status = 'Normal';
-      // } else {
-      //   $status = 'Tidak Stunting';
-      // }
-
       if ($zScore < -3) {
         $status = 'Stunting';
       } elseif ($zScore >= -3 && $zScore < -2) {
@@ -260,7 +252,7 @@ class DashboardAnthropometriController extends Controller
       'nama_balita' => 'required|string|max:100',
       'tinggi_badan' => 'required|numeric|min:0|max:300',
       'berat_badan' => 'required|numeric|min:0|max:200',
-      'jenis_kelamin' => 'required|string|in:laki-laki,perempuan',
+      'jenis_kelamin' => 'required|string|in:laki-laki,perempuan'
     ]);
 
 
@@ -316,7 +308,9 @@ class DashboardAnthropometriController extends Controller
   {
     $dataAnthropo = Anthropometri::findOrFail($id);
 
-    return view('content.dashboard.anthropometri.edit', compact(['dataAnthropo']));
+    $riwayat = Pertumbuhan::where('anthropometri_id', $id)->get();
+
+    return view('content.dashboard.anthropometri.edit', compact('dataAnthropo', 'riwayat'));
   }
 
   /**
@@ -325,6 +319,14 @@ class DashboardAnthropometriController extends Controller
   public function destroy(string $id)
   {
     $data = Anthropometri::findOrFail($id);
+    $data->delete();
+
+    return redirect()->back();
+  }
+
+  public function destroyRiwayat(string $id)
+  {
+    $data = Pertumbuhan::findOrFail($id);
     $data->delete();
 
     return redirect()->back();

@@ -22,16 +22,15 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+    @forelse ($dataAnak as $item)
+        <div class="card mb-4">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
 
-    <div class="card mb-4">
-        <div class="card-header">
-            <div class="d-flex justify-content-between">
-
-                <h4 class="card-title">Pertumbuhan Balita</h4>
-                <a href="#" class="btn btn-primary">Lihat Detail Balita</a>
+                    <h4 class="card-title">Pertumbuhan Balita</h4>
+                    <a href="{{ route('pendaftaran.show', $item->id) }}" class="btn btn-primary">Lihat Detail Balita</a>
+                </div>
             </div>
-        </div>
-        @forelse ($dataAnak as $item)
             <div class="card-body">
                 <div class="row">
                     <div class="row">
@@ -81,7 +80,8 @@
                                         </tr>
 
                                         <tr>
-                                            <td id="severely-stunted" class="color-severely-stunted">Sangat pendek/severely
+                                            <td id="severely-stunted" class="color-severely-stunted">Sangat
+                                                pendek/severely
                                                 stunted ( < -3 SD)</td>
                                         </tr>
                                     </tbody>
@@ -372,7 +372,7 @@
                 @empty
                     <p>Tidak ada data hasil analisis. Silakan masukkan data untuk melakukan perhitungan stunting.</p>
                 </div>
-        @endforelse
-    </div>
+            </div>
+    @endforelse
 
 @endsection
