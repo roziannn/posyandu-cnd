@@ -15,6 +15,10 @@ class Pertumbuhan extends Model
     'tahun',
     'tinggi_badan',
     'berat_badan',
-    'cara_ukur'
+    'cara_ukur',
+    'status_stunting',
+    'status_gizi',
+    'usia',
+    'z_score',
   ];
 }

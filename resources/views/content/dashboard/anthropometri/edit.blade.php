@@ -109,8 +109,9 @@
                                 <td>{{ $item->bulan }}/{{ $item->tahun }}</td>
                                 <td>{{ $item->berat_badan }}</td>
                                 <td>{{ $item->tinggi_badan }}</td>
-                                <td>1.01</td>
-                                <td>45 bulan</td>
+                                <td>{{ $item->z_score }}</td>
+                                <td>{{ $item->usia }} bulan</td>
+
                                 <td>
                                     <a href="javascript:void(0);" class="btn btn-danger"
                                         onclick="confirmDelete({{ $item->id }})">
