@@ -83,26 +83,6 @@
                         @php
                             $i = 1;
                         @endphp
-                        <td>{{ $i++ }}</td>
-                        @if ($dataAnthropo)
-                            <td>{{ $dataAnthropo->created_at->format('m/Y') }}</td>
-                            <td>{{ $dataAnthropo->berat_badan }}</td>
-                            <td>{{ $dataAnthropo->tinggi_badan }}</td>
-                            <td>
-                                @if (is_numeric($dataAnthropo->z_score))
-                                    {{ number_format($dataAnthropo->z_score, 2) }}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-
-                            <td>{{ $dataAnthropo->usia }} bulan</td>
-                            <td>
-                                <a href="javascript:void(0);" class="btn btn-secondary disabled">
-                                    <i class="bx bx-trash me-1"></i>
-                                </a>
-                            </td>
-                        @endif
                         @foreach ($riwayat as $item)
                             <tr>
                                 <td>{{ $i++ }}</td>

@@ -64,11 +64,13 @@ class LaporanController extends Controller
   public function exportPdf()
   {
     $pendaftarans = Pendaftaran::whereBetween('pendaftarans.created_at', [$this->startDate, $this->endDate])
-      ->leftJoin('anthropometris', 'pendaftarans.id', '=', 'anthropometris.pendaftaran_id')
+      ->join('anthropometris', 'pendaftarans.id', '=', 'anthropometris.pendaftaran_id')
       ->select(
         'pendaftarans.*',
         'anthropometris.tinggi_badan',
-        'anthropometris.berat_badan'
+        'anthropometris.berat_badan',
+        'anthropometris.z_score',
+        'anthropometris.usia',
       )
       ->get();
 

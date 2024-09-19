@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Pendaftaran;
+use App\Models\Pertumbuhan;
 use Illuminate\Http\Request;
 use App\Models\Anthropometri;
-use App\Models\Pertumbuhan;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class DashboardAnthropometriController extends Controller
@@ -283,15 +284,31 @@ class DashboardAnthropometriController extends Controller
     $validatedData['status_stunting'] = $stuntingResult['status'];
     $validatedData['status_gizi'] = $stuntingResult['status_gizi'];
     $validatedData['z_score'] = $stuntingResult['zscore'];
-    // $validatedData['keterangan'] = $stuntingResult['keterangan'];
-
 
     if (empty($validatedData['jenis_kelamin'])) {
       return redirect()->back()->with('error', 'Jenis kelamin is required.');
     }
 
     try {
-      Anthropometri::create($validatedData);
+      $anthropometri = Anthropometri::create($validatedData);
+
+
+      // Simpan juga track data ke table pertumbuhan
+      Pertumbuhan::create([
+        'anthropometri_id' => $anthropometri->id,
+        'pendaftaran_id' => $anthropometri->pendaftaran_id,
+        'bulan' => Carbon::now()->format('m'),
+        'tahun' => Carbon::now()->format('Y'),
+        'tinggi_badan' => $validatedData['tinggi_badan'],
+        'berat_badan' => $validatedData['berat_badan'],
+        'cara_ukur' => '-',
+        'status_stunting' => $validatedData['status_stunting'],
+        'status_gizi' => $validatedData['status_gizi'],
+        'usia' => $usiaBalita,
+        'z_score' => $validatedData['z_score'],
+      ]);
+
+      DB::commit();
 
       if ($request->input('jenis_kelamin') === 'laki-laki') {
         return redirect('/dashboard/anthropometri/laki-laki')->with('success', 'Data anthropometri berhasil disimpan.');
@@ -308,7 +325,7 @@ class DashboardAnthropometriController extends Controller
   {
     $dataAnthropo = Anthropometri::findOrFail($id);
 
-    $riwayat = Pertumbuhan::where('anthropometri_id', $id)->get();
+    $riwayat = Pertumbuhan::where('anthropometri_id', $id)->orderBy('created_at', 'desc')->get();
 
     return view('content.dashboard.anthropometri.edit', compact('dataAnthropo', 'riwayat'));
   }

@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Pendaftaran;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Font;
@@ -13,9 +14,10 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\WithCustomStartCell;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 
-class PendaftarExcelExport implements FromCollection, WithHeadings, ShouldAutoSize, WithMapping, WithColumnFormatting, WithStyles
+class PendaftarExcelExport implements FromCollection, WithHeadings, ShouldAutoSize, WithMapping, WithColumnFormatting, WithStyles, WithCustomStartCell
 {
   protected $startDate;
   protected $endDate;
@@ -26,34 +28,10 @@ class PendaftarExcelExport implements FromCollection, WithHeadings, ShouldAutoSi
     $this->endDate = $endDate;
   }
 
-  // public function collection()
-  // {
-  //   $query = Pendaftaran::latest();
-
-  //   if ($this->startDate && $this->endDate) {
-  //     $query->whereBetween('created_at', [$this->startDate, $this->endDate]);
-  //   }
-
-  //   return $query->select(
-  //     'nama_balita',
-  //     'nik',
-  //     'jenis_kelamin',
-  //     'rt',
-  //     'rw',
-  //     'dukuh',
-  //     'tanggal_lahir',
-  //     'bb_lahir',
-  //     'nama_ortu',
-  //     'jadwal_id',
-  //     'created_at',
-  //     'tinggi_badan'
-  //   )->get();
-  // }
-
   public function collection()
   {
     return Pendaftaran::whereBetween('pendaftarans.created_at', [$this->startDate, $this->endDate])
-      ->leftJoin('anthropometris', 'pendaftarans.id', '=', 'anthropometris.pendaftaran_id') // Left join tabel anthropometri
+      ->join('anthropometris', 'pendaftarans.id', '=', 'anthropometris.pendaftaran_id') //hanya data yg sudah ada di anthropo sj.
       ->select(
         'pendaftarans.nama_balita',
         'pendaftarans.nik',
@@ -86,17 +64,17 @@ class PendaftarExcelExport implements FromCollection, WithHeadings, ShouldAutoSi
       "'" . $pendaftaran->nik,
       strtoupper($pendaftaran->nama_balita),
       strtoupper($pendaftaran->jenis_kelamin),
-      strtoupper($pendaftaran->tanggal_lahir),
+      $pendaftaran->tanggal_lahir ? Carbon::parse($pendaftaran->tanggal_lahir)->format('d/m/Y') : 'N/A',
       strtoupper($pendaftaran->bb_lahir),
       strtoupper($pendaftaran->nama_ortu),
       strtoupper($pendaftaran->jadwal->nama_posyandu ?? 'N/A'),
       strtoupper($pendaftaran->rt),
       strtoupper($pendaftaran->rw),
       strtoupper($pendaftaran->dukuh),
-      $pendaftaran->created_at->format('Y-m-d'),
+      $pendaftaran->created_at ? Carbon::parse($pendaftaran->created_at)->format('d/m/Y') : 'N/A',
       strtoupper($pendaftaran->berat_badan),
       strtoupper($pendaftaran->tinggi_badan),
-      strtoupper($pendaftaran->z_score),
+      number_format($pendaftaran->z_score, 2, '.', ''),
       strtoupper($pendaftaran->usia),
     ];
   }
@@ -120,7 +98,7 @@ class PendaftarExcelExport implements FromCollection, WithHeadings, ShouldAutoSi
       'BERAT',
       'TINGGI',
       'ZS TB/U',
-      'UMUR (BULAN)',
+      'USIA (BULAN)',
     ];
   }
 
@@ -136,7 +114,7 @@ class PendaftarExcelExport implements FromCollection, WithHeadings, ShouldAutoSi
   // Styling untuk heading
   public function styles(Worksheet $sheet)
   {
-    $sheet->getStyle('A1:P1')->applyFromArray([
+    $sheet->getStyle('A2:P2')->applyFromArray([
       'font' => [
         'bold' => true,
         'color' => ['rgb' => '000000'], // grey
@@ -152,8 +130,22 @@ class PendaftarExcelExport implements FromCollection, WithHeadings, ShouldAutoSi
       ],
     ]);
 
+    $sheet->mergeCells('A1:P1');
+    $sheet->setCellValue('A1', 'Data periode tanggal ' . $this->startDate . ' s/d ' . $this->endDate);
+
+    $sheet->getStyle('A1')->applyFromArray([
+      'font' => [
+        'size' => 12,
+      ],
+    ]);
+
     return [
       'A' => ['alignment' => ['horizontal' => 'center']],
     ];
+  }
+
+  public function startCell(): string
+  {
+    return 'A2';
   }
 }

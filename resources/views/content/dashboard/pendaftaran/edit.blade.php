@@ -75,7 +75,7 @@
                                         <label class="form-label" for="tanggal_lahir">Tanggal Lahir </label>
                                         <input type="date" id="tanggal_lahir" name="tanggal_lahir" class="form-control"
                                             placeholder="Masukkan Tanggal Lahir Balita"
-                                            value="{{ $pendaftarans->tanggal_lahir }}">
+                                            value="{{ $pendaftarans->tanggal_lahir }}" readonly>
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label" for="jenis_kelamin">Jenis Kelamin</label>

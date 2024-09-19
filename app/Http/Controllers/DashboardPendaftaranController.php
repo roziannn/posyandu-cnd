@@ -50,7 +50,7 @@ class DashboardPendaftaranController extends Controller
       // Pagination
       $pendaftarans = $pendaftarans->paginate(10);
     } elseif ($user->role == 'ortu') {
-      $pendaftarans = Pendaftaran::where('username', $user->username)->get();
+      $pendaftarans = Pendaftaran::where('nama_ortu', $user->username)->get();
     }
 
     return view('content.dashboard.pendaftaran.index', compact('pendaftarans', 'posyandu'));

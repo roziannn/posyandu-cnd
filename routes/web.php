@@ -143,14 +143,20 @@ Route::group(['middleware' => ['auth']], function () {
       [DashboardPertumbuhanController::class, 'indexPetugas']
     )->name('pertumbuhan.petugas');
 
+    // Route::get('/get-pertumbuhan-data', [DataPertumbuhanController::class, 'getPertumbuhanData']);
     Route::resource('pertumbuhan', DataPertumbuhanController::class);
   });
 
   Route::group(['middleware' => ['role:ortu']], function () {
     Route::get(
       '/dashboard/pertumbuhan',
-      [DashboardPertumbuhanController::class, 'index']
+      [DashboardPertumbuhanController::class, 'indexOrtu']
     )->name('dashboard.pertumbuhan');
+
+    Route::get(
+      '/dashboard/pertumbuhan/{id}',
+      [DashboardPertumbuhanController::class, 'index']
+    )->name('pertumbuhan.ortu');
   });
 
   Route::group(['middleware' => ['role:kades,petugas']], function () {

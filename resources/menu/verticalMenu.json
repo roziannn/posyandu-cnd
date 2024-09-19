@@ -120,7 +120,6 @@
       "icon": "menu-icon tf-icons bi bi-chat-left-dots",
       "slug": "dashboard-notifikasi",
       "roles": [
-        "petugas",
         "ortu"
       ]
     },
