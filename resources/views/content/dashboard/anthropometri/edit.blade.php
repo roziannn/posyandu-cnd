@@ -16,6 +16,23 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+    @if (session('whatsappUrl'))
+        <p id="whatsapp-message">Anda akan dialihkan ke WhatsApp...</p>
+        <script>
+            setTimeout(function() {
+                window.open("{{ session('whatsappUrl') }}", "_blank");
+            }, 1000);
+
+            setTimeout(function() {
+                var message = document.getElementById("whatsapp-message");
+                if (message) {
+                    message.style.display = 'none';
+                }
+            }, 5000);
+        </script>
+        {{ session()->forget('whatsappUrl') }}
+    @endif
+
 
     <div class="card">
         <div class="card-body">
@@ -89,7 +106,7 @@
                                 <td>{{ $item->bulan }}/{{ $item->tahun }}</td>
                                 <td>{{ $item->berat_badan }}</td>
                                 <td>{{ $item->tinggi_badan }}</td>
-                                <td>{{ $item->z_score }}</td>
+                                <td>{{ number_format($item->z_score, 2, '.', '') }}</td>
                                 <td>{{ $item->usia }} bulan</td>
 
                                 <td>

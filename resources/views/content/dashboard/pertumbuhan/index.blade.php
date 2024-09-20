@@ -28,7 +28,7 @@
             <div class="d-flex justify-content-between">
 
                 <h4 class="card-title">Pertumbuhan Balita</h4>
-                <a href="{{ route('anthropometri.observasi', $data->id) }}" class="btn btn-primary">Detail Observasi</a>
+                {{-- <a href="{{ route('anthropometri.observasi', $data->id) }}" class="btn btn-primary">Detail Observasi</a> --}}
             </div>
         </div>
         <div class="card-body">
@@ -58,15 +58,16 @@
 
                 @if (is_numeric($data->z_score))
                     <div class="container">
-                        <div class="row my-3">
-                            <div class="col-md-4">
-                                <form method="GET" action="{{ route('pertumbuhan.petugas', $data->id) }}"
+                        <div class="row my-3 justify-content-center">
+                            <div class="col-md-8">
+                                <form method="GET" action="{{ route('pertumbuhan.ortu', $data->id) }}"
                                     class="d-flex align-items-center">
                                     <div class="me-2">
-                                        <h6 class="mb-0">Pilih Bulan</h6>
+                                        <h6 class="mb-0">Grafik dalam bulan</h6>
                                     </div>
                                     <div class="me-2 flex-grow-1">
                                         <select name="month" class="form-select" id="month-select">
+                                            <option value="">Pilih Bulan</option>
                                             @foreach ($getAllMonthsBased as $month)
                                                 <option value="{{ $month }}"
                                                     {{ $month == $selectedMonth ? 'selected' : '' }}>

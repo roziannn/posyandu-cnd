@@ -35,8 +35,20 @@ class DashboardPertumbuhanController extends Controller
       $status_gizi = 'tinggi';
     }
 
+    $latestMonthData = Pertumbuhan::where('anthropometri_id', $data->id)
+      ->select(DB::raw("MAX(CONCAT(LPAD(bulan, 2, '0'), '/', tahun)) as latest_month"))
+      ->first();
 
-    /** Get grafik berdasarkan bulan
+    if ($latestMonthData && $latestMonthData->latest_month) {
+      $selectedMonth = $request->input('month') ?? $latestMonthData->latest_month;
+    } else {
+      $selectedMonth = $request->input('month') ?? now()->format('m/Y');
+    }
+
+    $parsedDate = Carbon::createFromFormat('m/Y', $selectedMonth);
+
+
+    /** Get grafik berdasarkan filter bulan
      */
     $getAllMonthsBased = Pertumbuhan::where('anthropometri_id', $data->id)
       ->select(DB::raw("CONCAT(LPAD(bulan, 2, '0'), '/', tahun) as month"))
@@ -45,8 +57,8 @@ class DashboardPertumbuhanController extends Controller
       ->toArray();
 
 
-    $selectedMonth = $request->input('month') ?? now()->format('m/Y');
-    $parsedDate = Carbon::createFromFormat('m/Y', $selectedMonth);
+    // $selectedMonth = $request->input('month') ?? now()->format('m/Y');
+    // $parsedDate = Carbon::createFromFormat('m/Y', $selectedMonth);
 
     $pertumbuhan = Pertumbuhan::where('anthropometri_id', $data->id)
       ->where('bulan', '=', $parsedDate->format('m'))
@@ -62,7 +74,7 @@ class DashboardPertumbuhanController extends Controller
     } else {
       $zScore[] = null;
     }
-    // dd($zScore);
+    //dd($zScore);
 
     return view('content.dashboard.pertumbuhan.index', compact(
       'data',
@@ -75,7 +87,7 @@ class DashboardPertumbuhanController extends Controller
     ));
   }
 
-  function indexOrtu(): View
+  function indexOrtu(): View  //list page
   {
     $user = Auth::user();
 
@@ -88,8 +100,6 @@ class DashboardPertumbuhanController extends Controller
     $count = $dataAnak->count();
     // dd($count);
 
-
-    // dd($dataAnak);
     return view('content.dashboard.pertumbuhan.index-ortu', compact('dataAnak', 'count'));
   }
 
@@ -116,6 +126,17 @@ class DashboardPertumbuhanController extends Controller
       $status_gizi = 'tinggi';
     }
 
+    $latestMonthData = Pertumbuhan::where('anthropometri_id', $data->id)
+      ->select(DB::raw("MAX(CONCAT(LPAD(bulan, 2, '0'), '/', tahun)) as latest_month"))
+      ->first();
+
+    if ($latestMonthData && $latestMonthData->latest_month) {
+      $selectedMonth = $request->input('month') ?? $latestMonthData->latest_month;
+    } else {
+      $selectedMonth = $request->input('month') ?? now()->format('m/Y');
+    }
+
+    $parsedDate = Carbon::createFromFormat('m/Y', $selectedMonth);
 
     /** Get grafik berdasarkan bulan
      */
@@ -125,15 +146,12 @@ class DashboardPertumbuhanController extends Controller
       ->pluck('month')
       ->toArray();
 
-
-    $selectedMonth = $request->input('month') ?? now()->format('m/Y');
-    $parsedDate = Carbon::createFromFormat('m/Y', $selectedMonth);
-
     $pertumbuhan = Pertumbuhan::where('anthropometri_id', $data->id)
       ->where('bulan', '=', $parsedDate->format('m'))
       ->where('tahun', '=', $parsedDate->format('Y'))
       ->get();
 
+    // dd($pertumbuhan);
 
     $zScore = [];
     if ($pertumbuhan->isNotEmpty()) {
@@ -143,7 +161,7 @@ class DashboardPertumbuhanController extends Controller
     } else {
       $zScore[] = null;
     }
-    // dd($zScore);
+    //dd($zScore);
 
     return view('content.dashboard.pertumbuhan.index-petugas', compact(
       'data',

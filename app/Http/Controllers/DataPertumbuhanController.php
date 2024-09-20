@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Anthropometri;
+use Exception;
+use App\Models\Pendaftaran;
 use App\Models\Pertumbuhan;
 use Illuminate\Http\Request;
+use App\Models\Anthropometri;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class DataPertumbuhanController extends Controller
 {
@@ -19,27 +23,28 @@ class DataPertumbuhanController extends Controller
       0 => [44.2, 46.1, 48, 49.9, 51.8, 53.7, 55.6],
       1 => [48.9, 50.8, 52.8, 54.7, 56.7, 58.6, 60.6],
       2 => [52.4, 54.4, 56.4, 58.4, 60.4, 62.4, 64.4],
-      3 => [57.6, 59.7, 61.8, 63.9, 66, 68, 70.1],
-      4 => [59.6, 61.7, 63.8, 65.9, 68, 70.1, 72.2],
-      5 => [61.2, 63.3, 65.5, 67.6, 69.8, 71.9, 74],
-      6 => [62.7, 64.8, 67, 69.2, 71.3, 73.5, 75.7],
-      7 => [64, 66.2, 68.4, 70.6, 72.8, 75, 77.2],
-      8 => [65.2, 67.5, 69.7, 72, 74.2, 76.5, 78.7],
-      9 => [66.4, 68.7, 71, 73.3, 75.6, 77.9, 80.1],
-      10 => [67.6, 69.9, 72.2, 74.5, 76.9, 79.2, 81.5],
-      11 => [68.6, 71, 73.4, 75.7, 78.1, 80.5, 82.9],
-      12 => [69.6, 72.1, 74.5, 76.9, 79.3, 81.8, 84.2],
-      13 => [70.6, 73.1, 75.6, 78, 80.5, 83, 85.5],
-      14 => [71.6, 74.1, 76.6, 79.1, 81.7, 84.2, 86.7],
-      15 => [72.5, 75, 77.6, 80.2, 82.8, 85.4, 88],
-      16 => [73.3, 76, 78.6, 81.2, 83.9, 86.5, 89.2],
-      17 => [74.2, 76.9, 79.6, 82.3, 85, 87.7, 90.4],
-      18 => [75, 77.7, 80.5, 83.2, 86, 88.8, 91.5],
-      19 => [75.8, 78.6, 81.4, 84.2, 87, 89.8, 92.6],
-      20 => [76.5, 79.4, 82.3, 85.1, 88, 90.9, 93.8],
-      21 => [77.2, 80.2, 83.1, 86, 89, 91.9, 94.9],
-      22 => [78, 81, 83.9, 86.9, 89.9, 92.9, 95.9],
-      23 => [78.7, 81.7, 84.8, 87.8, 90.9, 93.9, 97],
+      3 => [55.3, 57.3, 59.4, 61.4, 63.5, 65.5, 67.6],
+      4 => [57.6, 59.7, 61.8, 63.9, 66, 68, 70.1],
+      5 => [59.6, 61.7, 63.8, 65.9, 68, 70.1, 72.2],
+      6 => [61.2, 63.3, 65.5, 67.6, 69.8, 71.9, 74],
+      7 => [62.7, 64.8, 67, 69.2, 71.3, 73.5, 75.7],
+      8 => [64, 66.2, 68.4, 70.6, 72.8, 75, 77.2],
+      9 => [65.2, 67.5, 69.7, 72, 74.2, 76.5, 78.7],
+      10 => [66.4, 68.7, 71, 73.3, 75.6, 77.9, 80.1],
+      11 => [67.6, 69.9, 72.2, 74.5, 76.9, 79.2, 81.5],
+      12 => [68.6, 71, 73.4, 75.7, 78.1, 80.5, 82.9],
+      13 => [69.6, 72.1, 74.5, 76.9, 79.3, 81.8, 84.2],
+      14 => [70.6, 73.1, 75.6, 78, 80.5, 83, 85.5],
+      15 => [71.6, 74.1, 76.6, 79.1, 81.7, 84.2, 86.7],
+      16 => [72.5, 75, 77.6, 80.2, 82.8, 85.4, 88],
+      17 => [73.3, 76, 78.6, 81.2, 83.9, 86.5, 89.2],
+      18 => [74.2, 76.9, 79.6, 82.3, 85, 87.7, 90.4],
+      19 => [75, 77.7, 80.5, 83.2, 86, 88.8, 91.5],
+      20 => [75.8, 78.6, 81.4, 84.2, 87, 89.8, 92.6],
+      21 => [76.5, 79.4, 82.3, 85.1, 88, 90.9, 93.8],
+      22 => [77.2, 80.2, 83.1, 86, 89, 91.9, 94.9],
+      23 => [78, 81, 83.9, 86.9, 89.9, 92.9, 95.9],
+      24 => [78.7, 81.7, 84.8, 87.8, 90.9, 93.9, 97],
       24 => [78, 81, 84.1, 87.1, 90.2, 93.2, 96.3],
       25 => [78.6, 81.7, 84.9, 88, 91.1, 94.2, 97.3],
       26 => [79.3, 82.5, 85.6, 88.8, 92, 95.2, 98.3],
@@ -70,14 +75,13 @@ class DataPertumbuhanController extends Controller
       51 => [92.1, 96.4, 100.7, 105, 109.3, 113.6, 117.9],
       52 => [92.5, 96.9, 101.2, 105.6, 109.9, 114.2, 118.6],
       53 => [93, 97.4, 101.7, 106.1, 110.5, 114.9, 119.2],
-      53 => [93, 97.4, 101.7, 106.1, 110.5, 114.9, 119.2],
       54 => [93.4, 97.8, 102.3, 106.7, 111.1, 115.5, 119.9],
       55 => [93.9, 98.3, 102.8, 107.2, 111.7, 116.1, 120.6],
       56 => [94.3, 98.8, 103.3, 107.8, 112.3, 116.7, 121.2],
       57 => [94.7, 99.3, 103.8, 108.3, 112.8, 117.4, 121.9],
-      58 => [95.2, 99.7, 104.3, 108.9, 113.4, 118.0, 122.6],
-      59 => [95.6, 100.2, 104.8, 109.4, 114.0, 118.6, 123.2],
-      60 => [96.1, 100.7, 105.3, 110.0, 114.6, 119.2, 123.9]
+      58 => [95.2, 99.7, 104.3, 108.9, 113.4, 118, 122.6],
+      59 => [95.6, 100.2, 104.8, 109.4, 114, 118.6, 123.2],
+      60 => [96.1, 100.7, 105.3, 110, 114.6, 119.2, 123.9]
     ];
 
     if ($usiaBulan < 0 || $usiaBulan > 60) {
@@ -90,16 +94,18 @@ class DataPertumbuhanController extends Controller
     }
 
     $data = $dataTinggiBadan[$usiaBulan] ?? null;
-
+    // dd($usiaBulan);
 
     if ($data) {
       // Z-Score berdasarkan tinggi badan
       $median = $data[3]; // Median (nilai ke -4)
+      // dd($median);
       $plus2SD = $data[5];
+      $minus1SD = $data[2];
       $minus2SD = $data[1];
 
       // Hitung z-score
-      $zScore = ($tinggiBadan - $median) / ($plus2SD - $median);
+      $zScore = ($tinggiBadan - $median) / ($median - $minus1SD);
 
       if ($zScore < -3) {
         $status = 'Stunting';
@@ -172,18 +178,21 @@ class DataPertumbuhanController extends Controller
 
     // rumus selisih usia
     if ($latestData) {
-      $createdAt = $latestData->created_at;
+      $tanggal_lahir = $latestData->pendaftaran->tanggal_lahir;
+      $tanggal_lahir = Carbon::parse($tanggal_lahir);
 
-      $latestBulan = $createdAt->format('m');
-      $latestTahun = $createdAt->format('Y');
+      $tanggalInput = Carbon::createFromDate($tahun, $bulan, 1);
 
       // hitung selisih bulan
-      $selisihTahun = $tahun - $latestTahun;
-      $selisihBulan = $bulan - $latestBulan;
+      $totalSelisih = $tanggalInput->diffInMonths($tanggal_lahir);
 
-      $totalSelisih = ($selisihTahun * 12) + $selisihBulan;
+      if ($tanggalInput->day <= $tanggal_lahir->day) {
+        $totalSelisih++;
+      }
 
-      $nowAge = $latestData->usia + $totalSelisih;
+      $nowAge =  $totalSelisih;
+      // dd($nowAge);
+
       $validatedData['usia'] = $nowAge;
     }
 
@@ -197,26 +206,40 @@ class DataPertumbuhanController extends Controller
     $validatedData['status_gizi'] = $stuntingResult['status_gizi'];
     $validatedData['z_score'] = $stuntingResult['zscore'];
 
-    //dd($validatedData);
 
     Pertumbuhan::create($validatedData);
 
+    $pendaftaran = Pendaftaran::find($request->pendaftaran_id);
+    $nomorTelepon = $pendaftaran->no_telepon;
+
+    $nomorTelepon = preg_replace('/[^0-9]/', '', $nomorTelepon);
+
+    $pesan = "Halo {$pendaftaran->nama_ortu},\n\n"
+      . "Hasil pengukuran Panjang Badan/Tinggi Badan (PB/TB) anak Anda, "
+      . "{$pendaftaran->nama_balita} yang berusia {$validatedData['usia']} bulan adalah sebagai berikut:\n\n\n"
+      . "Status Stunting: {$stuntingResult['status']}\n"
+      . "Status Gizi: {$stuntingResult['status_gizi']}\n"
+      . "Z-Score: " . number_format($stuntingResult['zscore'], 2) . "\n\n"
+      . "Saran: ";
+
+    if ($stuntingResult['status'] == 'Sangat Pendek (Severely Stunted)') {
+      $pesan .= "Segera lakukan konsultasi ke tenaga kesehatan untuk mendapatkan penanganan yang tepat.";
+    } elseif ($stuntingResult['status'] == 'Pendek (Stunted)') {
+      $pesan .= "Konsultasikan kondisi anak ke puskesmas atau dokter spesialis gizi untuk mendapatkan saran pola makan yang lebih baik.";
+    } elseif ($stuntingResult['status'] == 'Normal') {
+      $pesan .= "Pertahankan pola makan yang seimbang dan gizi yang cukup.";
+    } elseif ($stuntingResult['status'] == 'Tinggi') {
+      $pesan .= "Kondisi ini biasanya tidak memerlukan intervensi khusus, namun tetap lakukan pemantauan tumbuh kembang secara rutin.";
+    }
+
+    $pesan = urlencode($pesan);
+
+    $whatsappUrl = "https://wa.me/$nomorTelepon?text=$pesan";
+
+    session(['whatsappUrl' => $whatsappUrl]);
+
+    //return redirect()->away($whatsappUrl);
+
     return redirect()->back()->with('success', 'Data berhasil disimpan.');
-  }
-
-  /**
-   * Update the specified resource in storage.
-   */
-  public function update(Request $request, string $id)
-  {
-    //
-  }
-
-  /**
-   * Remove the specified resource from storage.
-   */
-  public function destroy(string $id)
-  {
-    //
   }
 }
