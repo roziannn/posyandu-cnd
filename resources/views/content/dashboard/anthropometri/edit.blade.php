@@ -138,6 +138,8 @@
                                 value="{{ $dataAnthropo->id }}" hidden>
                             <input type="text" name="pendaftaran_id" class="form-control"
                                 value="{{ $dataAnthropo->pendaftaran_id }}" hidden>
+                            <input type="text" name="jenis_kelamin" class="form-control"
+                                value="{{ $dataAnthropo->jenis_kelamin }}" hidden>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Bulan/Tahun Pengukuran</label>
