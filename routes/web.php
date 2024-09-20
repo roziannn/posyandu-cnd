@@ -71,10 +71,9 @@ Route::post('/login', [LoginController::class, 'authenticate']);
 Route::get('/register', [RegisterController::class, 'index'])->name('register')->middleware('guest');
 Route::post('/register', [RegisterController::class, 'store']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-// Route::get('/dashboard', [MenuController::class, 'show'])->name('dashboard-analytics');
 
 Route::group(['middleware' => ['auth']], function () {
-  Route::get('/dashboard', [Analytics::class, 'index'])->name('dashboard-analytics');
+  // Route::get('/dashboard', [Analytics::class, 'index'])->name('dashboard-analytics');
 
   Route::group(['middleware' => ['auth']], function () {
 
@@ -97,31 +96,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/dashboard/user/update/{id}', [DashboardUserController::class, 'update']);
     Route::get('/dashboard/detailuser/{id}', [DashboardUserController::class, 'show']);
 
-    Route::get('/dashboard/notifikasi', [NotificationController::class, 'index'])->name('notifikasi');
-
-
-    //  Route::resource('/dashboard/anthropometri', DashboardAnthropometriController::class);
-    // Route::post('/dashboard/anthropometri/laki', [DashboardAnthropometriController::class, 'store'])->name('anthropometri.laki.store');
-    // Route::get('/dashboard/anthropometri/laki/create', [DashboardAnthropometriController::class, 'create'])->name('anthropometri.laki.create');
-    // Route::get('/dashboard/anthropometri/perempuan/create', [DashboardAnthropometriController::class, 'create'])->name('anthropometri.perempuan.create');
-    // Route::post('/dashboard/anthropometri/perempuan', [DashboardAnthropometriController::class, 'store'])->name('anthropometri.perempuan.store');
-
-
+    //Route::get('/dashboard/notifikasi', [NotificationController::class, 'index'])->name('notifikasi');
 
     // revisi added 1/9/24
     Route::get('/api/pendaftaran/{nik}', [DashboardPendaftaranController::class, 'getDataByNik']);
-
-    Route::get('/dashboard/anthropometri/observasi-gizi/{id}', [DashboardAnthropometriController::class, 'observasi'])->name('anthropometri.observasi');
-
-    Route::get('/dashboard/anthropometri/create', [DashboardAnthropometriController::class, 'create'])->name('anthropometri.create');
-    // Route::get('/dashboard/anthropometri/create', [DashboardAnthropometriController::class, 'det'])->name('anthropometri.detail');
-    Route::get('/dashboard/anthropometri/laki-laki', [DashboardAnthropometriController::class, 'indexLakiLaki'])->name('anthropometri.indexLakiLaki');
-    Route::get('/dashboard/anthropometri/perempuan', [DashboardAnthropometriController::class, 'indexPerempuan'])->name('anthropometri.indexPerempuan');
-    Route::post('/dashboard/anthropometri/store', [DashboardAnthropometriController::class, 'store'])->name('anthropometri.store');
-
-    Route::get('/dashboard/anthropometri/edit/{id}', [DashboardAnthropometriController::class, 'edit'])->name('anthropometri.edit');
-    Route::get('/dashboard/anthropometri/delete/{id}', [DashboardAnthropometriController::class, 'destroy'])->name('anthropometri.delete');
-    Route::get('/dashboard/anthropometri/riwayat/delete/{id}', [DashboardAnthropometriController::class, 'destroyRiwayat'])->name('anthropometri.deleteRiwayat');
   });
 
   Route::group(['middleware' => ['role:ortu']], function () {
@@ -143,8 +121,20 @@ Route::group(['middleware' => ['auth']], function () {
       [DashboardPertumbuhanController::class, 'indexPetugas']
     )->name('pertumbuhan.petugas');
 
-    // Route::get('/get-pertumbuhan-data', [DataPertumbuhanController::class, 'getPertumbuhanData']);
     Route::resource('pertumbuhan', DataPertumbuhanController::class);
+
+    //  Anthropo routes
+
+    Route::get('/dashboard/anthropometri/observasi-gizi/{id}', [DashboardAnthropometriController::class, 'observasi'])->name('anthropometri.observasi');
+
+    Route::get('/dashboard/anthropometri/create', [DashboardAnthropometriController::class, 'create'])->name('anthropometri.create');
+    Route::get('/dashboard/anthropometri/laki-laki', [DashboardAnthropometriController::class, 'indexLakiLaki'])->name('anthropometri.indexLakiLaki');
+    Route::get('/dashboard/anthropometri/perempuan', [DashboardAnthropometriController::class, 'indexPerempuan'])->name('anthropometri.indexPerempuan');
+    Route::post('/dashboard/anthropometri/store', [DashboardAnthropometriController::class, 'store'])->name('anthropometri.store');
+
+    Route::get('/dashboard/anthropometri/edit/{id}', [DashboardAnthropometriController::class, 'edit'])->name('anthropometri.edit');
+    Route::get('/dashboard/anthropometri/delete/{id}', [DashboardAnthropometriController::class, 'destroy'])->name('anthropometri.delete');
+    Route::get('/dashboard/anthropometri/riwayat/delete/{id}', [DashboardAnthropometriController::class, 'destroyRiwayat'])->name('anthropometri.deleteRiwayat');
   });
 
   Route::group(['middleware' => ['role:ortu']], function () {
@@ -174,12 +164,3 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/pendaftaran/export-pdf', [LaporanController::class, 'exportPdf'])->name('pendaftaran.export.pdf');
   });
 });
-
-// Route::get('/dashboard/jadwal/create', [DashboardJadwalController::class, 'create']);
-// Route::post('/dashboard/jadwal', [DashboardJadwalController::class, 'store']);
-// // layout
-// Route::get('/layouts/without-menu', [WithoutMenu::class, 'index'])->name('layouts-without-menu');
-// Route::get('/layouts/without-navbar', [WithoutNavbar::class, 'index'])->name('layouts-without-navbar');
-// Route::get('/layouts/fluid', [Fluid::class, 'index'])->name('layouts-fluid');
-// Route::get('/layouts/container', [Container::class, 'index'])->name('layouts-container');
-// Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');

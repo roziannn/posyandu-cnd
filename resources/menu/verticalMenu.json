@@ -115,15 +115,6 @@
       ]
     },
     {
-      "url": "dashboard/notifikasi",
-      "name": "Notifikasi",
-      "icon": "menu-icon tf-icons bi bi-chat-left-dots",
-      "slug": "dashboard-notifikasi",
-      "roles": [
-        "ortu"
-      ]
-    },
-    {
       "url": "dashboard/laporan",
       "name": "Laporan",
       "icon": "menu-icon tf-icons bi bi-journal-check",
