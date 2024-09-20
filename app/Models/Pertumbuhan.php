@@ -21,4 +21,9 @@ class Pertumbuhan extends Model
     'usia',
     'z_score',
   ];
+
+  public function pendaftaran()
+  {
+    return $this->belongsTo(Pendaftaran::class, 'pendaftaran_id', 'id');
+  }
 }

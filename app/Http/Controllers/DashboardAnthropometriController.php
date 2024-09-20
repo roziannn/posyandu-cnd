@@ -83,22 +83,29 @@ class DashboardAnthropometriController extends Controller
   public function observasi($id)
   {
     $dataObserv = Anthropometri::findOrFail($id);
-    //  dd($dataObserv->z_score);
-    $tglLahir  = $dataObserv->pendaftaran->tanggal_lahir;
-    $tglLahir = Carbon::parse($tglLahir);
-    $usiaBalita = $tglLahir->diffInMonths(Carbon::now());
 
-    // Hitung status stunting dan keterangan
-    $tinggiBadan = $dataObserv->tinggi_badan;
-    $beratBadan = $dataObserv->berat_badan;
+    $latestByPertumbuhan = Pertumbuhan::where('anthropometri_id', $dataObserv->id)
+      ->orderBy('tahun', 'desc')
+      ->orderBy('bulan', 'desc')
+      ->first();
+    if ($latestByPertumbuhan) {
+      $usiaBalita = $latestByPertumbuhan->usia;
+      // dd($usiaBalita);
 
-    $result = $this->calculateStunting($tinggiBadan, $usiaBalita, $beratBadan);
+      // Hitung status stunting dan keterangan
+      $tinggiBadan = $latestByPertumbuhan->tinggi_badan;
+      $beratBadan = $latestByPertumbuhan->berat_badan;
 
-    return view('content.dashboard.anthropometri.observasi-result', compact(
-      'dataObserv',
-      'usiaBalita',
-      'result'
-    ));
+      $result = $this->calculateStunting($tinggiBadan, $usiaBalita, $beratBadan);
+
+      return view('content.dashboard.anthropometri.observasi-result', compact(
+        'dataObserv',
+        'usiaBalita',
+        'result'
+      ));
+    } else {
+      return redirect()->back()->with('error', 'Data pertumbuhan tidak ditemukan.');
+    }
   }
 
   public function calculateStunting($tinggiBadan, $usiaBulan, $beratBadan)

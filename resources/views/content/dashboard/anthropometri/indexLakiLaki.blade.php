@@ -80,6 +80,7 @@
                                     <a href="{{ route('anthropometri.observasi', $data->id) }}" class="btn btn-success"><i
                                             class='bx bx-copy-alt'></i></a>
                                 </td>
+
                                 <td>
                                     <a href="{{ route('pertumbuhan.petugas', $data->id) }}" class="btn btn-info"><i
                                             class='bx bx-chart'></i></a>
