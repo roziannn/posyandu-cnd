@@ -17,6 +17,23 @@
         </div>
     @endif
 
+    @if (session('whatsappUrl'))
+        <p id="whatsapp-message">Anda akan dialihkan ke WhatsApp...</p>
+        <script>
+            setTimeout(function() {
+                window.open("{{ session('whatsappUrl') }}", "_blank");
+            }, 1000);
+
+            setTimeout(function() {
+                var message = document.getElementById("whatsapp-message");
+                if (message) {
+                    message.style.display = 'none';
+                }
+            }, 5000);
+        </script>
+        {{ session()->forget('whatsappUrl') }}
+    @endif
+
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">

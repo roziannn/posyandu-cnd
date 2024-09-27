@@ -17,11 +17,7 @@ return new class extends Migration
       $table->string('jenis_kelamin');
       $table->float('tinggi_badan');
       $table->float('berat_badan');
-
-      $table->string('status_stunting');
-      $table->string('status_gizi');
       $table->integer('usia');
-      $table->string('z_score');
 
       // $table->integer('bulan');
       // $table->integer('tahun');

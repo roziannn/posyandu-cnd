@@ -104,7 +104,9 @@
                     </tbody>
                 </table>
                 <!-- Tombol navigasi paginate -->
-                {{ $pendaftarans->appends(request()->query())->links('pagination::bootstrap-4') }}
+                <div class="mt-4">
+                    {{ $pendaftarans->appends(request()->query())->links('pagination::bootstrap-4') }}
+                </div>
             </div>
         </div>
 

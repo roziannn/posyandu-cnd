@@ -32,6 +32,16 @@
 
     <div class="row">
         <div class="col-lg-12">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <form method="post" action="{{ route('pendaftaran.store') }}">
                 @csrf
                 <div class="row">
@@ -46,8 +56,8 @@
                                     <label for="nama_posyandu" class="form-label">Nama Posyandu</label>
                                     <select class="form-control" id="nama_posyandu" name="nama_posyandu">
                                         <option value="">Pilih Nama Posyandu</option>
-                                        @foreach ($posyanduList as $id => $posyandu)
-                                            <option value="{{ $posyandu }}">{{ $posyandu }}</option>
+                                        @foreach ($posyanduList as $id => $nama_posyandu)
+                                            <option value="{{ $nama_posyandu }}">{{ $nama_posyandu }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -56,23 +66,23 @@
                                         <legend>Data Balita </legend>
                                         <label class="form-label" for="nik">NIK</label>
                                         <input type="text" id="nik" name="nik" class="form-control"
-                                            placeholder="Masukkan NIK 16 digit">
+                                            placeholder="Masukkan NIK 16 digit" value="{{ old('nik') }}">
                                     </fieldset>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="nama_balita">Nama</label>
                                     <input type="text" id="nama_balita" name="nama_balita" class="form-control"
-                                        placeholder="Masukkan Nama Balita">
+                                        placeholder="Masukkan Nama Balita" value="{{ old('nama_balita') }}">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="tempat_lahir">Tempat Lahir</label>
                                     <input type="text" id="tempat_lahir" name="tempat_lahir" class="form-control"
-                                        placeholder="Masukkan Tempat Lahir">
+                                        placeholder="Masukkan Tempat Lahir" value="{{ old('tempat_lahir') }}">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="tanggal_lahir">Tanggal Lahir</label>
                                     <input type="date" id="tanggal_lahir" name="tanggal_lahir" class="form-control"
-                                        placeholder="Masukkan Tanggal Lahir">
+                                        placeholder="Masukkan Tanggal Lahir" value="{{ old('tanggal_lahir') }}">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="jenis_kelamin">Jenis Kelamin</label>
@@ -85,7 +95,12 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="bb_lahir">Berat Badan Lahir</label>
                                     <input type="float" id="bb_lahir" name="bb_lahir" class="form-control"
-                                        placeholder="Masukkan Berat Badan Lahir">
+                                        placeholder="Masukkan Berat Badan Lahir" value="{{ old('bb_lahir') }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="tb_lahir">Tinggi Badan Lahir</label>
+                                    <input type="float" id="tb_lahir" name="tb_lahir" class="form-control"
+                                        placeholder="Masukkan Tinggi Badan Lahir" value="{{ old('tb_lahir') }}">
                                 </div>
                             </div>
                         </div>
@@ -103,12 +118,19 @@
                                             <div class="mb-3">
                                                 <label class="form-label" for="nama_ortu">Nama Orang Tua</label>
                                                 <input type="text" name="nama_ortu" class="form-control"
-                                                    placeholder="Masukkan Nama Orang Tua">
+                                                    placeholder="Masukkan Nama Orang Tua" value="{{ old('nama_ortu') }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="email_ortu">Email</label>
+                                                <input type="email" id="email_ortu" name="email_ortu"
+                                                    class="form-control" placeholder="Masukkan Email"
+                                                    value="{{ old('email_ortu') }}">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label" for="no_telepon">No WhatsApp</label>
-                                                <input type="text" id="no_telepon" name="no_telepon" class="form-control"
-                                                    placeholder="Masukkan Nomor WA">
+                                                <input type="text" id="no_telepon" name="no_telepon"
+                                                    class="form-control" placeholder="Masukkan Nomor WA"
+                                                    value="{{ old('tempat_lahir') }}">
                                             </div>
                                             <div class="mb-3">
                                                 <fieldset>
@@ -154,17 +176,21 @@
                                                 <select class="form-control" id="pekerjaan" name="pekerjaan"
                                                     onchange="checkOtherOption()">
                                                     <option value="">Pilih Pekerjaan</option>
-                                                    <option value="Belum/Tidak Bekerja">Belum/Tidak Bekerja</option>
-                                                    <option value="Mengurus Rumah Tangga">Mengurus Rumah Tangga</option>
+                                                    <option value="Belum/Tidak Bekerja">Belum/Tidak Bekerja
+                                                    </option>
+                                                    <option value="Mengurus Rumah Tangga">Mengurus Rumah Tangga
+                                                    </option>
                                                     <option value="Pensiunan">Pensiunan</option>
-                                                    <option value="Pegawai Negeri Sipil (PNS)">Pegawai Negeri Sipil (PNS)
+                                                    <option value="Pegawai Negeri Sipil (PNS)">Pegawai Negeri
+                                                        Sipil (PNS)
                                                     </option>
                                                     <option value="Perdagangan">Perdagangan</option>
                                                     <option value="Petani/Pekebun">Petani/Pekebun</option>
                                                     <option value="Peternak">Peternak</option>
                                                     <option value="Industri">Industri</option>
                                                     <option value="Karyawan Swasta">Karyawan Swasta</option>
-                                                    <option value="Buruh Harian Lepas">Buruh Harian Lepas</option>
+                                                    <option value="Buruh Harian Lepas">Buruh Harian Lepas
+                                                    </option>
                                                     <option value="Perangkat Desa">Perangkat Desa</option>
                                                     <option value="Kepala Desa">Kepala Desa</option>
                                                     <option value="Wiraswasta">Wiraswasta</option>

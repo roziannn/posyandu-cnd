@@ -39,7 +39,7 @@ class DashboardUserController extends Controller
     }
 
     // Pagination
-    $users = $users->paginate(20);
+    $users = $users->paginate(10);
 
     return view('content.dashboard.user.index', compact('users'));
   }

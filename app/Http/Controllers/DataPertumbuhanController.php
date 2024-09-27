@@ -149,7 +149,6 @@ class DataPertumbuhanController extends Controller
     ];
 
     $dataTinggiBadan = ($jenisKelamin === 'laki-laki') ? $dataTinggiBadanLk : $dataTinggiBadanPr;
-    // dd($jenisKelamin);
 
     if ($usiaBulan < 0 || $usiaBulan > 60) {
       return [
@@ -165,14 +164,19 @@ class DataPertumbuhanController extends Controller
 
     if ($data) {
       // Z-Score berdasarkan tinggi badan
-      $median = $data[3]; // Median (nilai ke -4)
-      // dd($median);
-      $plus2SD = $data[5];
-      $minus1SD = $data[2];
       $minus2SD = $data[1];
+      $minus1SD = $data[2];
+      $median = $data[3]; // Median (nilai ke -4)
+      $plus1SD = $data[4];
+      $plus2SD = $data[5];
 
       // Hitung z-score
-      $zScore = ($tinggiBadan - $median) / ($median - $minus1SD);
+      // $zScore = ($tinggiBadan - $median) / ($median - $minus1SD);
+      $x = ($tinggiBadan - $median);
+      $yMinus = ($median - $minus1SD);
+      $yPositif = ($median - $plus1SD);
+
+      $zScore = $x < 0 ? ($tinggiBadan - $median) / $yMinus : ($tinggiBadan - $median) / $yPositif;
 
       if ($zScore < -3) {
         $status = 'Stunting';
@@ -253,17 +257,25 @@ class DataPertumbuhanController extends Controller
       $tanggal_lahir = Carbon::parse($tanggal_lahir);
 
       $tanggalInput = Carbon::createFromDate($tahun, $bulan, 1);
-
       // hitung selisih bulan
       $totalSelisih = $tanggalInput->diffInMonths($tanggal_lahir);
 
-      if ($tanggalInput->day <= $tanggal_lahir->day) {
+      if ($tanggalInput > now()) {
+        return redirect()->back()->with('error', 'Bulan input tidak boleh melebihi bulan sekarang.');
+      }
+
+      if ($tanggalInput->month === now()->month && $tanggalInput->year === now()->year) {
+        // kalau current month, check harinya sudah melewati tgl lhir ato blm
+        if (now()->day >= $tanggal_lahir->day) {
+          $totalSelisih++;
+        }
+      } elseif ($tanggalInput <= now()) {
+        // kalo kurang dari today, increment
         $totalSelisih++;
       }
 
       $nowAge =  $totalSelisih;
       // dd($nowAge);
-
       $validatedData['usia'] = $nowAge;
     }
 
@@ -296,13 +308,13 @@ class DataPertumbuhanController extends Controller
       . "Z-Score: " . number_format($stuntingResult['zscore'], 2) . "\n\n"
       . "Saran: ";
 
-    if ($stuntingResult['status'] == 'Sangat Pendek (Severely Stunted)') {
+    if ($stuntingResult['status_gizi'] == 'sangat pendek (severely stunted)') {
       $pesan .= "Segera lakukan konsultasi ke tenaga kesehatan untuk mendapatkan penanganan yang tepat.";
-    } elseif ($stuntingResult['status'] == 'Pendek (Stunted)') {
+    } elseif ($stuntingResult['status_gizi'] == 'pendek (stunted)') {
       $pesan .= "Konsultasikan kondisi anak ke puskesmas atau dokter spesialis gizi untuk mendapatkan saran pola makan yang lebih baik.";
-    } elseif ($stuntingResult['status'] == 'Normal') {
+    } elseif ($stuntingResult['status_gizi'] == 'normal') {
       $pesan .= "Pertahankan pola makan yang seimbang dan gizi yang cukup.";
-    } elseif ($stuntingResult['status'] == 'Tinggi') {
+    } elseif ($stuntingResult['status_gizi'] == 'tinggi') {
       $pesan .= "Kondisi ini biasanya tidak memerlukan intervensi khusus, namun tetap lakukan pemantauan tumbuh kembang secara rutin.";
     }
 
@@ -312,8 +324,16 @@ class DataPertumbuhanController extends Controller
 
     session(['whatsappUrl' => $whatsappUrl]);
 
-    //return redirect()->away($whatsappUrl);
 
     return redirect()->back()->with('success', 'Data berhasil disimpan.');
+  }
+
+
+  public function destroyRiwayat(string $id)
+  {
+    $data = Pertumbuhan::findOrFail($id);
+    $data->delete();
+
+    return redirect()->back();
   }
 }

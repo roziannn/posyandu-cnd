@@ -100,22 +100,26 @@
                         @php
                             $i = 1;
                         @endphp
-                        @foreach ($riwayat as $item)
+                        @forelse ($riwayat as $item)
                             <tr>
                                 <td>{{ $i++ }}</td>
                                 <td>{{ $item->bulan }}/{{ $item->tahun }}</td>
                                 <td>{{ $item->berat_badan }}</td>
                                 <td>{{ $item->tinggi_badan }}</td>
-                                <td>{{ number_format($item->z_score, 2, '.', '') }}</td>
+                                <td>{{ is_numeric($item->z_score) ? number_format($item->z_score, 2, '.', '') : 'N/A' }}
+                                </td>
                                 <td>{{ $item->usia }} bulan</td>
-
                                 <td>
                                     <a href="javascript:void(0);" class="btn btn-danger"
                                         onclick="confirmDelete({{ $item->id }})">
                                         <i class="bx bx-trash me-1"></i>
                                     </a>
                                 </td>
-                        @endforeach
+                            @empty
+                            <tr>
+                                <td colspan="7">Tidak ada riwayat pertumbuhan.</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>

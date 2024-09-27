@@ -128,17 +128,12 @@
                         </thead>
                         <tbody>
                             @forelse ($dataAnak as $data)
-                                {{-- @php
-                                    dd($dataAnak);
-                                @endphp --}}
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $data->nama_balita }}</td>
                                     <td>{{ $data->nama_posyandu }}</td>
-
                                     <td>
-                                        <a href="{{ route('pertumbuhan.ortu', $data->anthropometri_id) }}"
-                                            class="btn btn-primary">Lihat
+                                        <a href="{{ route('pertumbuhan.ortu', $data->id) }}" class="btn btn-primary">Lihat
                                             Pertumbuhan</a>
                                     </td>
                                 @empty

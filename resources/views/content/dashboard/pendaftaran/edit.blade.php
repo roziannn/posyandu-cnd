@@ -31,6 +31,16 @@
 
     <div class="row">
         <div class="col-lg-12">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <form method="post" action="/dashboard/pendaftaran/update/{{ $pendaftarans->id }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
@@ -95,6 +105,12 @@
                                             placeholder="Masukkan Berat Badan Balita"
                                             value="{{ $pendaftarans->bb_lahir }}">
                                     </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="tb_lahir">Tinggi Badan Lahir</label>
+                                        <input type="float" id="tb_lahir" name="tb_lahir" class="form-control"
+                                            placeholder="Masukkan Tinggi Badan Balita"
+                                            value="{{ $pendaftarans->tb_lahir }}">
+                                    </div>
                                 </fieldset>
                             </div>
                         </div>
@@ -106,6 +122,11 @@
                             <div class="card-body">
                                 <fieldset>
                                     <legend>Data Orang Tua</legend>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="email_ortu">Email Ortu</label>
+                                        <input type="text" id="email_ortu" name="email_ortu" class="form-control"
+                                            placeholder="Masukkan Email Orang Tua" value="{{ $pendaftarans->email_ortu }}">
+                                    </div>
                                     <div class="mb-3">
                                         <label class="form-label" for="nama_ortu">Nama</label>
                                         <input type="text" id="nama_ortu" name="nama_ortu" class="form-control"

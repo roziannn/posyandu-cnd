@@ -18,11 +18,7 @@ class Anthropometri extends Model
     'tinggi_badan',
     'berat_badan',
     'jenis_kelamin',
-
-    'z_score',
     'usia',
-    'status_stunting',
-    'status_gizi',
   ];
 
   public function pendaftaran()

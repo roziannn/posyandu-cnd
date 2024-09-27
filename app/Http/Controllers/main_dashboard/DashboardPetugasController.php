@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Anthropometri;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Pertumbuhan;
 
 class DashboardPetugasController extends Controller
 {
@@ -20,14 +21,15 @@ class DashboardPetugasController extends Controller
 
     $currentYear = date('Y');
 
-    $stuntingData = Anthropometri::select(DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(*) as count'))
+    $stuntingData = Pertumbuhan::select(DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(*) as count'))
       ->where('status_stunting', 'Stunting')
       ->whereYear('created_at', $currentYear)
       ->groupBy(DB::raw('MONTH(created_at)'))
       ->orderBy('month')
       ->pluck('count', 'month');
+    // dd($stuntingData);
 
-    $normalData = Anthropometri::select(DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(*) as count'))
+    $normalData = Pertumbuhan::select(DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(*) as count'))
       ->where('status_stunting', 'Normal')
       ->whereYear('created_at', $currentYear)
       ->groupBy(DB::raw('MONTH(created_at)'))

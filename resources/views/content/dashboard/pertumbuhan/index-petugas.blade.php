@@ -56,7 +56,7 @@
                 </div>
                 <hr>
 
-                @if (is_numeric($data->z_score))
+                @if ($zScore)
                     <div class="container">
                         <div class="row my-3">
                             <div class="col-md-4">
@@ -137,15 +137,152 @@
                             element.style.border = '2px solid orange';
                             element.style.fontWeight = '900';
                             element.style.backgroundColor = 'rgba(250, 196, 24, 0.5)';
-                        } else {
+                        } else if (zScores <= -2 && zScores > -3) {
                             element = document.getElementById('stunted');
                             element.style.border = '2px solid red';
                             element.style.fontWeight = '900';
                             element.style.backgroundColor = 'rgba(255, 0, 0, 0.2)';
+                        } else if (zScores <= -3) {
+                            element = document.getElementById('severely-stunted');
+                            element.style.border = '2px solid darkred';
+                            element.style.fontWeight = '900';
+                            element.style.color = 'red';
+                            element.style.backgroundColor = 'rgba(139, 0, 0, 0.3)';
                         }
                     });
                 </script>
                 <script>
+                    // document.addEventListener('DOMContentLoaded', function() {
+                    //     var zScoreLimits = @json($zScoreLimits);
+                    //     var zScores = @json($zScore);
+                    //     var ages = @json($ages);
+
+                    //     var categories = ["0", "10", "20", "30", "40", "50", "60"]; // Kategori usia
+                    //     var closestCategory = categories.reduce(function(prev, curr) {
+                    //         return (Math.abs(curr - ages) < Math.abs(prev - ages) ? curr : prev);
+                    //     });
+
+                    //     var usiaData = ages;
+                    //     var garisUsia = usiaData[0];
+
+                    //     // Define y-axis max value and annotation value
+                    //     var yAxisMax = 4;
+                    //     var annotationYPosition = zScores > yAxisMax ? yAxisMax + 1 : zScores;
+                    //     var isStunting = zScores <= -2;
+                    //     var options = {
+                    //         chart: {
+                    //             height: 450,
+                    //             type: "area"
+                    //         },
+                    //         dataLabels: {
+                    //             enabled: true
+                    //         },
+                    //         series: [{
+                    //             name: "Status",
+                    //             data: zScoreLimits,
+                    //             color: isStunting ? 'rgba(255, 83, 23, 0.8)' : 'rgba(84, 157, 255, 0.8)'
+                    //         }],
+                    //         fill: {
+                    //             type: "gradient",
+                    //             gradient: {
+                    //                 shadeIntensity: 1,
+                    //                 opacityFrom: 0.7,
+                    //                 opacityTo: 0.9,
+                    //                 stops: [0, 90, 100],
+                    //                 colorStops: [{
+                    //                         offset: 0,
+                    //                         color: isStunting ? 'rgba(255, 83, 23, 0.8)' : 'rgba(84, 157, 255, 0.8)',
+                    //                         opacity: 0.7
+                    //                     },
+                    //                     {
+                    //                         offset: 100,
+                    //                         color: isStunting ? 'rgba(255, 83, 23, 0.8)' : 'rgba(84, 157, 255, 0.8)',
+                    //                         opacity: 0.9
+                    //                     }
+                    //                 ]
+                    //             }
+                    //         },
+                    //         stroke: {
+                    //             curve: 'smooth',
+                    //             width: [6]
+                    //         },
+                    //         title: {
+                    //             text: 'Grafik Analisa Stunting Anak Berdasarkan Hasil Z-Score',
+                    //             align: 'left'
+                    //         },
+                    //         grid: {
+                    //             row: {
+                    //                 colors: ['#f3f3f3', 'transparent'],
+                    //                 opacity: 0.5
+                    //             }
+                    //         },
+                    //         xaxis: {
+                    //             categories: categories,
+                    //             title: {
+                    //                 text: "Rentang Usia (Bulan)",
+                    //                 style: {
+                    //                     fontSize: '12px',
+                    //                     fontWeight: 'bold'
+                    //                 }
+                    //             }
+                    //         },
+                    //         yaxis: {
+                    //             min: -4,
+                    //             max: 5,
+                    //             labels: {
+                    //                 formatter: function(value) {
+                    //                     if (value > 3) {
+                    //                         return "Tinggi";
+                    //                     } else if (value > -2 && value <= 3) {
+                    //                         return "Normal";
+                    //                     } else {
+                    //                         return "Stunting";
+                    //                     }
+                    //                 }
+                    //             },
+                    //             title: {
+                    //                 text: "Stunting Status",
+                    //                 align: 'left',
+                    //                 style: {
+                    //                     fontSize: '12px',
+                    //                     fontWeight: 'bold'
+                    //                 }
+                    //             }
+                    //         },
+                    //         annotations: {
+                    //             xaxis: [{
+                    //                 x: closestCategory,
+                    //                 borderColor: '#71DD37',
+                    //                 strokeDashArray: 5,
+                    //                 strokeWidth: 4,
+                    //                 label: {
+                    //                     borderColor: '#71DD37',
+                    //                     style: {
+                    //                         color: '#fff',
+                    //                         background: '#71DD37'
+                    //                     },
+                    //                     text: 'Usia: ' + ages + ' bulan'
+                    //                 }
+                    //             }],
+                    //             yaxis: [{
+                    //                 y: annotationYPosition,
+                    //                 borderColor: '#FF4560',
+                    //                 strokeDashArray: 10,
+                    //                 label: {
+                    //                     borderColor: '#FF4560',
+                    //                     style: {
+                    //                         color: '#fff',
+                    //                         background: '#FF4560'
+                    //                     },
+                    //                     text: 'Z-Score: ' + zScores
+                    //                 }
+                    //             }]
+                    //         }
+                    //     };
+
+                    //     var chart = new ApexCharts(document.querySelector("#chartStat"), options);
+                    //     chart.render();
+                    // });
                     document.addEventListener('DOMContentLoaded', function() {
                         var zScoreLimits = @json($zScoreLimits);
                         var zScores = @json($zScore);
@@ -159,9 +296,17 @@
                         var usiaData = ages;
                         var garisUsia = usiaData[0];
 
-                        // Define y-axis max value and annotation value
+                        //  y-axis max value
                         var yAxisMax = 4;
-                        var annotationYPosition = zScores > yAxisMax ? yAxisMax + 1 : zScores;
+                        var annotationYPosition;
+
+                        // cek if zScores is < -3
+                        if (zScores < -3) {
+                            annotationYPosition = -4; // set minimum (label dibawah -3) y-axis
+                        } else {
+                            annotationYPosition = zScores > yAxisMax ? yAxisMax + 1 : zScores;
+                        }
+
                         var isStunting = zScores <= -2;
                         var options = {
                             chart: {

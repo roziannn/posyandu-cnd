@@ -63,15 +63,35 @@ class LaporanController extends Controller
   }
   public function exportPdf()
   {
-    $pendaftarans = Pendaftaran::whereBetween('pendaftarans.created_at', [$this->startDate, $this->endDate])
-      ->join('anthropometris', 'pendaftarans.id', '=', 'anthropometris.pendaftaran_id')
+    // $pendaftarans = Pendaftaran::whereBetween('pendaftarans.created_at', [$this->startDate, $this->endDate])
+    //   ->join('pertumbuhans', 'pendaftarans.id', '=', 'pertumbuhans.pendaftaran_id')
+    //   ->select(
+    //     'pendaftarans.*',
+    //     'pertumbuhans.tinggi_badan',
+    //     'pertumbuhans.berat_badan',
+    //     'pertumbuhans.z_score',
+    //     'pertumbuhans.usia',
+    //   )
+    //   ->get();
+
+    $pendaftarans =  Pendaftaran::whereBetween('pendaftarans.created_at', [$this->startDate, $this->endDate])
+      ->join('pertumbuhans', function ($join) {
+        $join->on('pendaftarans.id', '=', 'pertumbuhans.pendaftaran_id')
+          ->whereRaw('pertumbuhans.created_at = (
+                SELECT MAX(p2.created_at)
+                FROM pertumbuhans p2
+                WHERE p2.pendaftaran_id = pertumbuhans.pendaftaran_id
+            )');
+      })
       ->select(
         'pendaftarans.*',
-        'anthropometris.tinggi_badan',
-        'anthropometris.berat_badan',
-        'anthropometris.z_score',
-        'anthropometris.usia',
+        'pertumbuhans.berat_badan',
+        'pertumbuhans.tinggi_badan',
+        'pertumbuhans.z_score',
+        'pertumbuhans.usia',
+        'pertumbuhans.created_at as latest_pertumbuhan'
       )
+      ->orderBy('latest_pertumbuhan', 'desc')
       ->get();
 
     $startDate = \Carbon\Carbon::parse($this->startDate)->format('d/m/Y');

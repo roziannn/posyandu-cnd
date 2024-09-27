@@ -19,6 +19,8 @@ class Pendaftaran extends Model
     'tanggal_lahir',
     'jenis_kelamin',
     'bb_lahir',
+    'tb_lahir',
+    'email_ortu',
     'nama_ortu',
     'no_telepon',
     'dukuh',

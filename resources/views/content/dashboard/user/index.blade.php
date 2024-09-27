@@ -73,10 +73,12 @@
                     </tbody>
                 </table>
             </div>
+            <!-- Tombol navigasi paginate -->
+            <div class="mt-4">
+                {{ $users->links('pagination::bootstrap-4') }}
+            </div>
         </div>
-        <!-- Tombol navigasi paginate -->
-        {{ $users->links('pagination::bootstrap-4') }}
-    </div>
+
     </div>
 
     <!--/ Striped Rows -->

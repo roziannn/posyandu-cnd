@@ -31,24 +31,23 @@ class PendaftarExcelExport implements FromCollection, WithHeadings, ShouldAutoSi
   public function collection()
   {
     return Pendaftaran::whereBetween('pendaftarans.created_at', [$this->startDate, $this->endDate])
-      ->join('anthropometris', 'pendaftarans.id', '=', 'anthropometris.pendaftaran_id') //hanya data yg sudah ada di anthropo sj.
+      ->join('pertumbuhans', function ($join) {
+        $join->on('pendaftarans.id', '=', 'pertumbuhans.pendaftaran_id')
+          ->whereRaw('pertumbuhans.created_at = (
+                  SELECT MAX(p2.created_at)
+                  FROM pertumbuhans p2
+                  WHERE p2.pendaftaran_id = pertumbuhans.pendaftaran_id
+              )');
+      })
       ->select(
-        'pendaftarans.nama_balita',
-        'pendaftarans.nik',
-        'pendaftarans.jenis_kelamin',
-        'pendaftarans.rt',
-        'pendaftarans.rw',
-        'pendaftarans.dukuh',
-        'pendaftarans.tanggal_lahir',
-        'pendaftarans.bb_lahir',
-        'pendaftarans.nama_ortu',
-        'pendaftarans.jadwal_id',
-        'pendaftarans.created_at',
-        'anthropometris.berat_badan',
-        'anthropometris.tinggi_badan',
-        'anthropometris.z_score',
-        'anthropometris.usia',
+        'pendaftarans.*',
+        'pertumbuhans.berat_badan',
+        'pertumbuhans.tinggi_badan',
+        'pertumbuhans.z_score',
+        'pertumbuhans.usia',
+        'pertumbuhans.created_at as latest_pertumbuhan'
       )
+      ->orderBy('latest_pertumbuhan', 'desc')
       ->get();
   }
 

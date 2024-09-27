@@ -21,8 +21,13 @@ return new class extends Migration
       $table->date('tanggal_lahir');
       $table->string('jenis_kelamin', 50);
       $table->float('bb_lahir', 5, 2);
+      //added 24/9/24
+      $table->float('tb_lahir');
+      $table->string('email_ortu');
+      //
+
       $table->string('nama_ortu', 50);
-      $table->string('no_telepon', 13);
+      $table->string('no_telepon', 15);
       $table->string('dukuh', 20);
       $table->string('rt', 2);
       $table->string('rw', 2);

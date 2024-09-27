@@ -134,7 +134,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/dashboard/anthropometri/edit/{id}', [DashboardAnthropometriController::class, 'edit'])->name('anthropometri.edit');
     Route::get('/dashboard/anthropometri/delete/{id}', [DashboardAnthropometriController::class, 'destroy'])->name('anthropometri.delete');
-    Route::get('/dashboard/anthropometri/riwayat/delete/{id}', [DashboardAnthropometriController::class, 'destroyRiwayat'])->name('anthropometri.deleteRiwayat');
+    Route::get('/dashboard/anthropometri/riwayat/delete/{id}', [DataPertumbuhanController::class, 'destroyRiwayat'])->name('anthropometri.deleteRiwayat');
   });
 
   Route::group(['middleware' => ['role:ortu']], function () {
