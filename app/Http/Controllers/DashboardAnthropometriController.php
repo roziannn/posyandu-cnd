@@ -425,6 +425,13 @@ class DashboardAnthropometriController extends Controller
       return redirect()->back()->with('error', 'Jenis kelamin is required.');
     }
 
+    // cek if pendaftaran_id already exists di anthropometri table
+    $existingAnthropometri = Anthropometri::where('pendaftaran_id', $validatedData['pendaftaran_id'])->first();
+
+    if ($existingAnthropometri) {
+      return redirect()->back()->with('error', 'Gagal menyimpan. Data untuk NIK ' . $validatedData['nik'] . ' ini sudah terdaftar di Anthropometri!');
+    }
+
     try {
       DB::beginTransaction();
 
@@ -461,12 +468,18 @@ class DashboardAnthropometriController extends Controller
       // WhatsApp message
       $nomorTelepon = preg_replace('/[^0-9]/', '', $pendaftaran->no_telepon);
 
+      if ($stuntingResult['zscore'] === 'N/A') {
+        $formattedZScore = 'N/A';
+      } else {
+        $formattedZScore = number_format((float)$stuntingResult['zscore'], 2); // Ensure it's treated as float
+      }
+
       $pesan = "Halo {$pendaftaran->nama_ortu},\n\n"
         . "Hasil pengukuran Panjang Badan/Tinggi Badan (PB/TB) anak Anda, "
         . "{$pendaftaran->nama_balita} yang berusia {$validatedData['usia']} bulan adalah sebagai berikut:\n\n"
         . "Status Stunting: {$stuntingResult['status']}\n"
         . "Status Gizi: {$stuntingResult['status_gizi']}\n"
-        . "Z-Score: " . number_format($stuntingResult['zscore'], 2) . "\n\n"
+        . "Z-Score: " . $formattedZScore . "\n\n"
         . "Saran: ";
 
       if ($stuntingResult['status_gizi'] == 'sangat pendek (severely stunted)') {

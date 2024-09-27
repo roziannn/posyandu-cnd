@@ -26,11 +26,13 @@
                 @csrf
                 <div class="mb-3">
                     <label for="nik" class="form-label">NIK</label>
-                    <input type="text" class="form-control" id="nik" name="nik" required>
+                    <input type="text" class="form-control" id="nik" value="{{ old('nik') }}" name="nik"
+                        required>
                 </div>
                 <div class="mb-3">
                     <label for="nama_balita" class="form-label">Nama Balita</label>
-                    <input type="text" class="form-control" id="nama_balita" name="nama_balita" readonly>
+                    <input type="text" class="form-control" id="nama_balita" name="nama_balita"
+                        value="{{ old('nama_balita') }}" readonly>
                 </div>
                 <div class="mb-3">
                     <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
