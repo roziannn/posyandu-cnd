@@ -19,9 +19,6 @@
 
     <div class="card">
         <div class="card-body">
-            {{-- <form
-                action="{{ $gender === 'laki-laki' ? route('anthropometri.laki.store') : route('anthropometri.perempuan.store') }}"
-                method="POST"> --}}
             <form action="{{ route('anthropometri.store') }}" method="POST">
                 @csrf
                 <div class="mb-3">

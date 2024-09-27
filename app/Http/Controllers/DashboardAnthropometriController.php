@@ -471,7 +471,7 @@ class DashboardAnthropometriController extends Controller
       if ($stuntingResult['zscore'] === 'N/A') {
         $formattedZScore = 'N/A';
       } else {
-        $formattedZScore = number_format((float)$stuntingResult['zscore'], 2); // Ensure it's treated as float
+        $formattedZScore = number_format((float)$stuntingResult['zscore'], 2);
       }
 
       $pesan = "Halo {$pendaftaran->nama_ortu},\n\n"
