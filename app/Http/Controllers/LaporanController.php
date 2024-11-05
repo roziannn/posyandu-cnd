@@ -63,16 +63,6 @@ class LaporanController extends Controller
   }
   public function exportPdf()
   {
-    // $pendaftarans = Pendaftaran::whereBetween('pendaftarans.created_at', [$this->startDate, $this->endDate])
-    //   ->join('pertumbuhans', 'pendaftarans.id', '=', 'pertumbuhans.pendaftaran_id')
-    //   ->select(
-    //     'pendaftarans.*',
-    //     'pertumbuhans.tinggi_badan',
-    //     'pertumbuhans.berat_badan',
-    //     'pertumbuhans.z_score',
-    //     'pertumbuhans.usia',
-    //   )
-    //   ->get();
 
     $pendaftarans =  Pendaftaran::whereBetween('pendaftarans.created_at', [$this->startDate, $this->endDate])
       ->join('pertumbuhans', function ($join) {
@@ -89,6 +79,7 @@ class LaporanController extends Controller
         'pertumbuhans.tinggi_badan',
         'pertumbuhans.z_score',
         'pertumbuhans.usia',
+        'pertumbuhans.status_gizi',
         'pertumbuhans.created_at as latest_pertumbuhan'
       )
       ->orderBy('latest_pertumbuhan', 'desc')

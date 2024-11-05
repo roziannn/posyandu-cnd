@@ -47,7 +47,10 @@
                             </div>
                         </div>
 
-                        <div class="dropdown">
+                        <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#pdfModal"
+                            data-export="excel">Download PDF</button>
+
+                        {{-- <div class="dropdown">
                             <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 Download Excel/Pdf
@@ -62,7 +65,7 @@
                                         data-bs-target="#pdfModal" data-export="excel">Download PDF</button>
                                 </li>
                             </ul>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </form>

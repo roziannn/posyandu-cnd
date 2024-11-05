@@ -73,7 +73,6 @@ Route::post('/register', [RegisterController::class, 'store']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::group(['middleware' => ['auth']], function () {
-  // Route::get('/dashboard', [Analytics::class, 'index'])->name('dashboard-analytics');
 
   Route::group(['middleware' => ['auth']], function () {
 
@@ -84,11 +83,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/dashboard/pendaftaran/update/{id}', [DashboardPendaftaranController::class, 'update']);
     Route::get('/dashboard/detailpendaftaran/{id}', [DashboardPendaftaranController::class, 'show']);
 
-    Route::resource('/dashboard/jadwal', DashboardJadwalController::class);
-    Route::get('/dashboard/hapusjadwal/{id}', [DashboardJadwalController::class, 'hapusjadwal']);
-    Route::get('/dashboard/editjadwal/{id}', [DashboardJadwalController::class, 'edit']);
-    Route::put('/dashboard/jadwal/update/{id}', [DashboardJadwalController::class, 'update']);
-    Route::get('/dashboard/detailjadwal/{id}', [DashboardJadwalController::class, 'show']);
+    Route::resource('/dashboard/posyandu', DashboardJadwalController::class);
+
+    Route::get('/dashboard/hapusposyandu/{id}', [DashboardJadwalController::class, 'hapusjadwal']);
+    Route::get('/dashboard/editposyandu/{id}', [DashboardJadwalController::class, 'edit']);
+    Route::put('/dashboard/posyandu/update/{id}', [DashboardJadwalController::class, 'update']);
+    Route::get('/dashboard/detailposyandu/{id}', [DashboardJadwalController::class, 'show']);
+
 
     Route::resource('/dashboard/user', DashboardUserController::class);
     Route::get('/dashboard/hapususer/{id}', [DashboardUserController::class, 'hapususer']);
@@ -100,6 +101,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     // revisi added 1/9/24
     Route::get('/api/pendaftaran/{nik}', [DashboardPendaftaranController::class, 'getDataByNik']);
+    // revisi added 3/11/24
+    Route::get('/api/pendaftaran/{nama_balita}', [DashboardPendaftaranController::class, 'getDataByName']);
   });
 
   Route::group(['middleware' => ['role:ortu']], function () {

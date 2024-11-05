@@ -56,11 +56,12 @@
                 <th>RT</th>
                 <th>RW</th>
                 <th>ALAMAT</th>
-                <th>TGL DAFTAR</th>
-                <th>TINGGI BADAN</th>
-                <th>BERAT BADAN</th>
+                <th>TB(CM)</th>
+                <th>BB(KG)</th>
                 <th>Z-SOCRE</th>
-                <th>USIA (BULAN)</th>
+                <th>USIA <br>(BULAN)</th>
+                <th>STATUS <br> GIZI</th>
+                <th>RUJUKAN KEBIJAKAN PEMERINTAH</th>
             </tr>
         </thead>
         <tbody>
@@ -72,7 +73,8 @@
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $pendaftaran->nik }}</td>
                     <td>{{ strtoupper($pendaftaran->nama_balita) }}</td>
-                    <td>{{ strtoupper($pendaftaran->jenis_kelamin) }}</td>
+                    <td>{{ $pendaftaran->jenis_kelamin === 'laki-laki' ? 'LK' : ($pendaftaran->jenis_kelamin === 'perempuan' ? 'PR' : strtoupper($pendaftaran->jenis_kelamin)) }}
+                    </td>
                     <td>{{ Carbon::parse($pendaftaran->tanggal_lahir)->format('d/m/Y') }}</td>
                     <td>{{ strtoupper($pendaftaran->bb_lahir) }}</td>
                     <td>{{ strtoupper($pendaftaran->nama_ortu) }}</td>
@@ -80,11 +82,23 @@
                     <td>{{ strtoupper($pendaftaran->rt) }}</td>
                     <td>{{ strtoupper($pendaftaran->rw) }}</td>
                     <td>{{ strtoupper($pendaftaran->dukuh) }}</td>
-                    <td>{{ $pendaftaran->created_at->format('d/m/Y') }}</td>
                     <td>{{ $pendaftaran->berat_badan ?? 'N/A' }}</td>
                     <td>{{ $pendaftaran->tinggi_badan ?? 'N/A' }}</td>
                     <td>{{ number_format($pendaftaran->z_score, 2, '.', '') }}</td>
                     <td>{{ $pendaftaran->usia }}</td>
+                    <td>{{ strtoupper($pendaftaran->status_gizi) }}</td>
+                    <td>
+                        {{ $pendaftaran->status_gizi === 'normal'
+                            ? 'Pemberian makanan tambahan (PMT) dengan protein hewani'
+                            : ($pendaftaran->status_gizi === 'pendek (stunted)'
+                                ? 'Rujuk Puskesmas untuk konfirmasi stunting dan terapi'
+                                : ($pendaftaran->status_gizi === 'sangat pendek (severely stunted)'
+                                    ? 'Rujuk ke Puskesmas untuk mendapatkan rujukan evaluasi stunting ke RSUD'
+                                    : 'Status gizi tidak diketahui')) }}
+                    </td>
+
+
+
                 </tr>
             @endforeach
         </tbody>

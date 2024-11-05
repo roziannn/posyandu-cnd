@@ -55,9 +55,13 @@
                                 <div class="mb-3">
                                     <label for="nama_posyandu" class="form-label">Nama Posyandu</label>
                                     <select class="form-control" id="nama_posyandu" name="nama_posyandu">
-                                        <option value="">Pilih Nama Posyandu</option>
-                                        @foreach ($posyanduList as $id => $nama_posyandu)
-                                            <option value="{{ $nama_posyandu }}">{{ $nama_posyandu }}</option>
+                                        <option value="">Pilih Posyandu</option>
+                                        @foreach ($posyanduList as $posyandu)
+                                            <option value="{{ $posyandu->nama_posyandu }}">
+                                                {{ $posyandu->nama_posyandu }} - {{ $posyandu->dukuh }}
+
+                                                RT{{ $posyandu->rt }}/RW{{ $posyandu->rw }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>

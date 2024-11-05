@@ -37,10 +37,10 @@
       ]
     },
     {
-      "url": "dashboard/jadwal",
-      "name": "Jadwal Posyandu",
+      "url": "dashboard/posyandu",
+      "name": "Posyandu",
       "icon": "menu-icon tf-icons bi bi-calendar-event",
-      "slug": "dashboard-jadwal",
+      "slug": "dashboard-posyandu",
       "roles": [
         "petugas"
       ]

@@ -54,14 +54,26 @@
                             <div class="card-body">
                                 <div class="mb-3">
                                     <label for="nama_posyandu" class="form-label">Nama Posyandu</label>
-                                    <select class="form-control" id="nama_posyandu" name="nama_posyandu">
+                                    <br>
+                                    <small id="pilihLokasiTxt" class="text-danger fw-bold" hidden>*Pilih lokasi
+                                        posyandu. Klik update untuk menyimpan perubahan</small>
+                                    <select class="form-control" id="nama_posyandu" name="nama_posyandu" disabled>
                                         <option value="">Pilih Nama Posyandu</option>
                                         @foreach ($posyanduList as $posyandu)
-                                            <option value="{{ $posyandu }}"
-                                                {{ $pendaftarans->nama_posyandu == $posyandu ? 'selected' : '' }}>
-                                                {{ $posyandu }}</option>
+                                            <option value="{{ $posyandu->nama_posyandu }}"
+                                                {{ $pendaftarans->nama_posyandu == $posyandu->nama_posyandu ? 'selected' : '' }}>
+                                                {{ $posyandu->nama_posyandu }} - {{ $posyandu->dukuh }}
+
+                                                RT{{ $posyandu->rt }}/RW{{ $posyandu->rw }}
+
+                                            </option>
                                         @endforeach
                                     </select>
+                                    <div class="text-end">
+                                        <button type="button" id="pindahPosyanduBtn"
+                                            class="mt-3 btn btn-sm btn-danger">Pindah
+                                            Posyandu</button>
+                                    </div>
                                 </div>
                                 <fieldset>
                                     <legend>Data Balita</legend>
@@ -125,7 +137,8 @@
                                     <div class="mb-3">
                                         <label class="form-label" for="email_ortu">Email Ortu</label>
                                         <input type="text" id="email_ortu" name="email_ortu" class="form-control"
-                                            placeholder="Masukkan Email Orang Tua" value="{{ $pendaftarans->email_ortu }}">
+                                            placeholder="Masukkan Email Orang Tua"
+                                            value="{{ $pendaftarans->email_ortu }}">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label" for="nama_ortu">Nama</label>
@@ -282,6 +295,30 @@
         // Initialize the form with the correct state
         document.addEventListener("DOMContentLoaded", function() {
             checkOtherOption();
+        });
+
+        document.getElementById('pindahPosyanduBtn').addEventListener('click', function() {
+            Swal.fire({
+                title: 'Yakin ingin pindah Posyandu?',
+                text: "Anda akan mengganti posyandu balita",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Pindah',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('nama_posyandu').disabled = false;
+                    document.getElementById('pilihLokasiTxt').hidden = false;
+                    document.getElementById('pindahPosyanduBtn').hidden = true;
+                    // Swal.fire(
+                    //     'Berhasil!',
+                    //     'Posyandu berhasil diubah.',
+                    //     'success'
+                    // )
+                }
+            })
         });
     </script>
 

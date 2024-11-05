@@ -50,7 +50,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="flex-grow-1 me-2">
                             <input type="text" name="search" class="form-control w-100"
-                                placeholder="Cari berdasarkan nama balita atau NIK" value="{{ request('search') }}">
+                                placeholder="Cari berdasarkan Nama Balita atau NIK" value="{{ request('search') }}">
                         </div>
                         <div>
                             <button type="submit" class="btn btn-primary">Cari</button>

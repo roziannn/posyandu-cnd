@@ -33,7 +33,7 @@ return new class extends Migration
       $table->string('rw', 2);
       $table->string('pekerjaan', 50);
 
-      $table->string('username', 10);
+      $table->string('username', 255);
       $table->timestamps();
     });
   }

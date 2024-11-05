@@ -8,6 +8,7 @@ use App\Models\Main;
 use App\Models\User;
 use App\Models\Pendaftaran;
 use App\Models\Jadwal;
+use App\Models\Mutasi;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
 
@@ -58,7 +59,9 @@ class DashboardPendaftaranController extends Controller
    */
   public function create()
   {
-    $posyanduList = Jadwal::pluck('nama_posyandu', 'id');
+    // $posyanduList = Jadwal::pluck('nama_posyandu', 'id');
+    $posyanduList = Jadwal::select('id', 'nama_posyandu', 'dukuh', 'rt', 'rw')->get();
+
     // dd($posyanduList);
     return view('content.dashboard.pendaftaran.create', compact('posyanduList'));
   }
@@ -130,7 +133,11 @@ class DashboardPendaftaranController extends Controller
       return redirect('/dashboard/pendaftaran')->with('error', 'Data pendaftaran tidak ditemukan.');
     }
 
-    return view('content.dashboard.pendaftaran.detail', compact('pendaftaran'));
+    $dataMutasi = Mutasi::where('pendaftaran_id', $id)->get();
+    // dd($dataMutasi);
+
+
+    return view('content.dashboard.pendaftaran.detail', compact('pendaftaran', 'dataMutasi'));
   }
 
   /**
@@ -139,7 +146,9 @@ class DashboardPendaftaranController extends Controller
   public function edit(string $id)
   {
     $pendaftarans = Pendaftaran::findOrFail($id);
-    $posyanduList = Pendaftaran::pluck('nama_posyandu', 'id');
+    // $posyanduList = Pendaftaran::pluck('nama_posyandu', 'id');
+    $posyanduList = Jadwal::select('id', 'nama_posyandu', 'dukuh', 'rt', 'rw')->get();
+
 
     return view('content.dashboard.pendaftaran.edit', compact(['pendaftarans', 'posyanduList']));
   }
@@ -158,7 +167,10 @@ class DashboardPendaftaranController extends Controller
     ]);
 
     $pendaftaran = Pendaftaran::findOrFail($id);
-    $pendaftaran->nama_posyandu = $request->nama_posyandu;
+
+    $oldPosyandu = $pendaftaran->nama_posyandu;
+
+    $pendaftaran->nama_posyandu = $request->nama_posyandu ?? $pendaftaran->nama_posyandu;
     $pendaftaran->nik = $request->nik;
     $pendaftaran->nama_balita = $request->nama_balita;
     $pendaftaran->tempat_lahir = $request->tempat_lahir;
@@ -174,8 +186,21 @@ class DashboardPendaftaranController extends Controller
     $pendaftaran->rw = $request->rw;
     $pendaftaran->pekerjaan = $request->pekerjaan;
 
+
+
     try {
       $pendaftaran->save();
+
+      if ($oldPosyandu !== $pendaftaran->nama_posyandu) {
+        Mutasi::create([
+          'pendaftaran_id' => $pendaftaran->id,
+          'fromPosyandu' => $oldPosyandu,
+          'toPosyandu' => $pendaftaran->nama_posyandu,
+          'username' => auth()->user()->username,
+        ]);
+      }
+
+
       return redirect('/dashboard/pendaftaran')->with('success', 'Data pendaftaran berhasil disimpan.');
     } catch (\Exception $e) {
       Log::error('Error saat menyimpan pendaftaran: ' . $e->getMessage());
@@ -203,7 +228,22 @@ class DashboardPendaftaranController extends Controller
         'jenis_kelamin' => $pendaftaran->jenis_kelamin
       ]);
     } else {
-      return response()->json(['error' => 'NIK tidak ditemukan.'], 404);
+      return response()->json(['error' => 'NIKS tidak ditemukan.'], 404);
+    }
+  }
+
+  //modifyy 11/3/2024
+  public function getDataByName($nama_balita)
+  {
+    $pendaftaran = Pendaftaran::where('nama_balita', $nama_balita)->first();
+
+    if ($pendaftaran) {
+      return response()->json([
+        'nik' => $pendaftaran->nik,
+        'jenis_kelamin' => $pendaftaran->jenis_kelamin
+      ]);
+    } else {
+      return response()->json(['error' => 'Nama Balita tidak ditemukan.'], 404);
     }
   }
 }

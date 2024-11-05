@@ -22,15 +22,15 @@
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="">
-                    <h5 style="color: navy">Data Jadwal Posyandu</h5>
+                    <h5 style="color: navy">Data Lokasi Posyandu</h5>
                 </div>
                 <div class="">
-                    <a href="/dashboard/jadwal/create" class="btn btn-primary">Tambah Data Jadwal</a>
+                    <a href="/dashboard/posyandu/create" class="btn btn-primary">Tambah Data Lokasi</a>
                 </div>
             </div>
         </div>
         <div class="card-body">
-            <form method="GET" action="{{ url('/dashboard/jadwal') }}" class="row g-3 mb-4">
+            <form method="GET" action="{{ url('/dashboard/posyandu') }}" class="row g-3 mb-4">
                 <div class="col-md-7 text">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="flex-grow-1 me-2">
@@ -48,15 +48,15 @@
                 <table class="table table-bordered">
                     <thead class="table-primary">
                         <tr class="center">
-                            <th>No</th>
+                            <th width="1%">No</th>
                             <th>NAMA POSYANDU</th>
                             <th>DUKUH</th>
                             <th>RT</th>
                             <th>RW</th>
-                            <th>TANGGAL</th>
+                            {{-- <th>TANGGAL</th>
                             <th>JAM MULAI</th>
-                            <th>JAM SELESAI</th>
-                            <th>Actions</th>
+                            <th>JAM SELESAI</th> --}}
+                            <th width="25%">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,9 +67,9 @@
                                 <td>{{ $jadwal->dukuh }}</td>
                                 <td>{{ $jadwal->rt }}</td>
                                 <td>{{ $jadwal->rw }}</td>
-                                <td>{{ \Carbon\Carbon::parse($jadwal->tanggal)->format('d-m-Y') }}</td>
+                                {{-- <td>{{ \Carbon\Carbon::parse($jadwal->tanggal)->format('d-m-Y') }}</td>
                                 <td>{{ $jadwal->jam_mulai }}</td>
-                                <td>{{ $jadwal->jam_selesai }}</td>
+                                <td>{{ $jadwal->jam_selesai }}</td> --}}
                                 <td>
                                     <a href="javascript:void(0);" class="btn btn-warning"
                                         onclick="return confirmEdit({{ $jadwal->id }})"><i
@@ -78,16 +78,17 @@
                                         onclick="confirmDelete({{ $jadwal->id }})">
                                         <i class="bx bx-trash me-1"></i>
                                     </a>
-                                    <a href="/dashboard/detailjadwal/{{ $jadwal->id }}" class="btn btn-primary"><i
+                                    <a href="/dashboard/detailposyandu/{{ $jadwal->id }}" class="btn btn-primary"><i
                                             class="bx bx-show"></i></a>
                                 </td>
                         @endforeach
                     </tbody>
                 </table>
+                <div class="mt-4">
+                    {{ $jadwals->links('pagination::bootstrap-4') }}
+                </div>
             </div>
         </div>
-        <!-- Tombol navigasi paginate -->
-        {{ $jadwals->links('pagination::bootstrap-4') }}
     </div>
 
 @endsection
@@ -105,7 +106,7 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = '/dashboard/hapusjadwal/' + id;
+                window.location.href = '/dashboard/hapusposyandu/' + id;
                 Swal.fire({
                     title: "Berhasil!",
                     text: "Data berhasil dihapus.",
@@ -129,7 +130,7 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = '/dashboard/editjadwal/' + id;
+                window.location.href = '/dashboard/editposyandu/' + id;
             }
         });
     }
