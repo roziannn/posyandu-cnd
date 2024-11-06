@@ -20,6 +20,8 @@
         }
     </style>
 
+    <a href="/dashboard/posyandu" class="btn btn-secondary mb-3">Kembali</a>
+
     <div class="row">
         <div class="col-lg-12">
             <form method="post" action="/dashboard/posyandu/update/{{ $jadwals->id }}">

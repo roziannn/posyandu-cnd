@@ -30,6 +30,8 @@
         }
     </style>
 
+    <a href="/dashboard/pendaftaran" class="btn btn-secondary mb-3">Kembali</a>
+
     <div class="row">
         <div class="col-lg-12">
             @if ($errors->any())

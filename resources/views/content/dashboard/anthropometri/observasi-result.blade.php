@@ -16,7 +16,8 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-
+    <a href="{{ $item->pendaftaran->jenis_kelamin === 'laki-laki' ? '/dashboard/anthropometri/laki-laki' : '/dashboard/anthropometri/perempuan' }}"
+        class="btn btn-secondary mb-3">Kembali</a>
     <div class="card mb-4">
         <div class="card-header">
             <div class="d-flex justify-content-between">

@@ -33,7 +33,8 @@
         {{ session()->forget('whatsappUrl') }}
     @endif
 
-
+    <a href="{{ $dataAnthropo->pendaftaran->jenis_kelamin === 'laki-laki' ? '/dashboard/anthropometri/laki-laki' : '/dashboard/anthropometri/perempuan' }}"
+        class="btn btn-secondary mb-3">Kembali</a>
     <div class="card">
         <div class="card-body">
             <form action="{{ route('anthropometri.store') }}" method="POST">
@@ -53,24 +54,6 @@
                     <input type="text" class="form-control" id="jenis_kelamin"
                         value="{{ $dataAnthropo->pendaftaran->jenis_kelamin }}" name="jenis_kelamin" readonly>
                 </div>
-
-                {{-- <div class="mb-3">
-                    <label for="tinggi_badan" class="form-label">Tinggi Badan</label>
-                    <input type="text" class="form-control" id="tinggi_badan" value="{{ $dataAnthropo->tinggi_badan }}"
-                        name="tinggi_badan" required readonly>
-                </div>
-                <div class="mb-3">
-                    <label for="berat_badan" class="form-label">Berat Badan</label>
-                    <input type="text" class="form-control" id="berat_badan" value="{{ $dataAnthropo->berat_badan }}"
-                        name="berat_badan" required readonly>
-                </div>
-                <div class="mb-3">
-                    <div class="alert alert-info medium">
-                        *Informasi tinggi dan berat badan diatas merupakan data terakhir balita pertanggal
-                        {{ $dataAnthropo->created_at->format('d/m/y') }}.
-                    </div>
-                </div> --}}
-                {{-- <button type="submit" class="btn btn-primary">Simpan</button> --}}
             </form>
         </div>
     </div>

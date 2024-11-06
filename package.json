@@ -86,6 +86,7 @@
   },
   "dependencies": {
     "@popperjs/core": "2.11.8",
+    "apexcharts": "^4.0.0",
     "apexcharts-clevision": "3.28.5",
     "bootstrap": "5.3.2",
     "boxicons": "2.1.4",

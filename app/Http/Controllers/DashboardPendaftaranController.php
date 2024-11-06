@@ -149,8 +149,9 @@ class DashboardPendaftaranController extends Controller
     // $posyanduList = Pendaftaran::pluck('nama_posyandu', 'id');
     $posyanduList = Jadwal::select('id', 'nama_posyandu', 'dukuh', 'rt', 'rw')->get();
 
+    $dataMutasi = Mutasi::where('pendaftaran_id', $id)->get();
 
-    return view('content.dashboard.pendaftaran.edit', compact(['pendaftarans', 'posyanduList']));
+    return view('content.dashboard.pendaftaran.edit', compact(['pendaftarans', 'posyanduList', 'dataMutasi']));
   }
 
   /**

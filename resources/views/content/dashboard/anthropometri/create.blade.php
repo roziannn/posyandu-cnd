@@ -16,6 +16,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+    <a href="/dashboard/anthropometri/laki-laki" class="btn btn-secondary mb-3">Kembali</a>
 
     <div class="card">
         <div class="card-body">

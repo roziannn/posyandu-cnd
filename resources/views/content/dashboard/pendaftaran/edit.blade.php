@@ -29,6 +29,7 @@
         }
     </style>
 
+    <a href="/dashboard/pendaftaran" class="btn btn-secondary mb-3">Kembali</a>
     <div class="row">
         <div class="col-lg-12">
             @if ($errors->any())
@@ -276,6 +277,40 @@
                     </div>
                 </div>
             </form>
+            @if (!empty($dataMutasi) && $dataMutasi->isNotEmpty())
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Riwayat Perpindahan Posyandu</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive text-nowrap">
+                            <table class="table table-bordered">
+                                <thead class="table-primary">
+                                    <tr class="center">
+                                        <th width="1%">NO.</th>
+                                        <th width="5%">Tanggal Pindah</th>
+                                        <th>Detail Perpindahan</th>
+                                        <th>By Username</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($dataMutasi as $key => $mutasi)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>{{ $mutasi->updated_at }}</td>
+                                            <td>Pindah dari posyandu <span
+                                                    class="text-info fw-bold">{{ $mutasi->fromPosyandu }} </span> ke
+                                                posyandu <span
+                                                    class="text-primary fw-bold">{{ $mutasi->toPosyandu }}</span></td>
+                                            <td>{{ $mutasi->username }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 
