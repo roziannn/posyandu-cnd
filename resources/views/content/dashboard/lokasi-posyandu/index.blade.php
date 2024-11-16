@@ -25,12 +25,12 @@
                     <h5 style="color: navy">Data Lokasi Posyandu</h5>
                 </div>
                 <div class="">
-                    <a href="/dashboard/posyandu/create" class="btn btn-primary">Tambah Data Lokasi</a>
+                    <a href="/dashboard/lokasi-posyandu/create" class="btn btn-primary">Tambah Data Lokasi</a>
                 </div>
             </div>
         </div>
         <div class="card-body">
-            <form method="GET" action="{{ url('/dashboard/posyandu') }}" class="row g-3 mb-4">
+            <form method="GET" action="{{ url('/dashboard/lokasi-posyandu') }}" class="row g-3 mb-4">
                 <div class="col-md-7 text">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="flex-grow-1 me-2">
@@ -53,23 +53,17 @@
                             <th>DUKUH</th>
                             <th>RT</th>
                             <th>RW</th>
-                            {{-- <th>TANGGAL</th>
-                            <th>JAM MULAI</th>
-                            <th>JAM SELESAI</th> --}}
                             <th width="25%">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($jadwals as $jadwal)
+                        @foreach ($lokasis as $jadwal)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $jadwal->nama_posyandu }}</td>
                                 <td>{{ $jadwal->dukuh }}</td>
                                 <td>{{ $jadwal->rt }}</td>
                                 <td>{{ $jadwal->rw }}</td>
-                                {{-- <td>{{ \Carbon\Carbon::parse($jadwal->tanggal)->format('d-m-Y') }}</td>
-                                <td>{{ $jadwal->jam_mulai }}</td>
-                                <td>{{ $jadwal->jam_selesai }}</td> --}}
                                 <td>
                                     <a href="javascript:void(0);" class="btn btn-warning"
                                         onclick="return confirmEdit({{ $jadwal->id }})"><i
@@ -85,7 +79,7 @@
                     </tbody>
                 </table>
                 <div class="mt-4">
-                    {{ $jadwals->links('pagination::bootstrap-4') }}
+                    {{ $lokasis->links('pagination::bootstrap-4') }}
                 </div>
             </div>
         </div>

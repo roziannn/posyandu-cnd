@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Post;
 use App\Models\Main;
 use App\Models\User;
 use App\Models\Pendaftaran;
-use App\Models\Jadwal;
+use App\Models\Lokasi;
 use App\Models\Mutasi;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
@@ -24,7 +23,7 @@ class DashboardPendaftaranController extends Controller
     //   ->paginate(5);
 
     $user = auth()->user();
-    $posyandu = Jadwal::all();
+    $posyandu = Lokasi::all();
 
 
     if ($user->role == 'petugas') {
@@ -59,8 +58,8 @@ class DashboardPendaftaranController extends Controller
    */
   public function create()
   {
-    // $posyanduList = Jadwal::pluck('nama_posyandu', 'id');
-    $posyanduList = Jadwal::select('id', 'nama_posyandu', 'dukuh', 'rt', 'rw')->get();
+    // $posyanduList = Lokasi::pluck('nama_posyandu', 'id');
+    $posyanduList = Lokasi::select('id', 'nama_posyandu', 'dukuh', 'rt', 'rw')->get();
 
     // dd($posyanduList);
     return view('content.dashboard.pendaftaran.create', compact('posyanduList'));
@@ -100,14 +99,14 @@ class DashboardPendaftaranController extends Controller
       'pekerjaan' => 'required|string|max:50',
     ]);
 
-    // Cari jadwal_id berdasarkan nama_posyandu
-    $jadwal = Jadwal::where('nama_posyandu', $request->input('nama_posyandu'))->first();
+    // Cari lokasi_id berdasarkan nama_posyandu
+    $lokasi = Lokasi::where('nama_posyandu', $request->input('nama_posyandu'))->first();
 
-    if (!$jadwal) {
+    if (!$lokasi) {
       return redirect()->back()->with('error', 'Nama posyandu tidak valid.');
     }
 
-    $validatedData['jadwal_id'] = $jadwal->id;
+    $validatedData['lokasi_id'] = $lokasi->id;
     $validatedData['username'] = auth()->user()->username;
 
 
@@ -117,7 +116,6 @@ class DashboardPendaftaranController extends Controller
     } catch (\Exception $e) {
       Log::error('Error saat menyimpan pendaftaran: ' . $e->getMessage());
       Log::error('Trace: ' . $e->getTraceAsString());
-      // dd($e->getMessage());
       return redirect('/dashboard/pendaftaran/create')->with('error', 'Data pendaftaran tidak berhasil disimpan. Kesalahan: ' . $e->getMessage());
     }
   }
@@ -147,7 +145,7 @@ class DashboardPendaftaranController extends Controller
   {
     $pendaftarans = Pendaftaran::findOrFail($id);
     // $posyanduList = Pendaftaran::pluck('nama_posyandu', 'id');
-    $posyanduList = Jadwal::select('id', 'nama_posyandu', 'dukuh', 'rt', 'rw')->get();
+    $posyanduList = Lokasi::select('id', 'nama_posyandu', 'dukuh', 'rt', 'rw')->get();
 
     $dataMutasi = Mutasi::where('pendaftaran_id', $id)->get();
 

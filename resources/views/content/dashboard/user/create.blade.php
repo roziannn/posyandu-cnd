@@ -27,7 +27,6 @@
                 <div class="row">
                     <div class="col-md-6">
                         <a href="/dashboard/user" class="btn btn-secondary mb-3">Kembali</a>
-                        {{-- <button type="" class="btn btn-secondary mb-3">Kembali</button> --}}
                         <div class="card mb-4">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <h5 class="mb-0">Masukkan Data User</h5>

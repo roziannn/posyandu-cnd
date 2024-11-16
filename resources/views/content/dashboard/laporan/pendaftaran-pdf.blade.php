@@ -39,8 +39,9 @@
 </head>
 
 <body>
-    <h5 id="judul">LAPORAN PENDAFTARAN POSYANDU
-        <span>PERIODE: {{ $startDate }} - {{ $endDate }}</span>
+    <h5 id="judul">LAPORAN POSYANDU
+        <span>PERIODE {{ strtoupper($month) }}
+        </span>
     </h5>
     <table>
         <thead>
@@ -68,7 +69,7 @@
             @php
                 use Illuminate\Support\Carbon;
             @endphp
-            @foreach ($pendaftarans as $index => $pendaftaran)
+            @forelse ($pendaftarans as $index => $pendaftaran)
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $pendaftaran->nik }}</td>
@@ -78,7 +79,7 @@
                     <td>{{ Carbon::parse($pendaftaran->tanggal_lahir)->format('d/m/Y') }}</td>
                     <td>{{ strtoupper($pendaftaran->bb_lahir) }}</td>
                     <td>{{ strtoupper($pendaftaran->nama_ortu) }}</td>
-                    <td>{{ strtoupper($pendaftaran->jadwal->nama_posyandu ?? 'N/A') }}</td>
+                    <td>{{ strtoupper($pendaftaran->lokasi->nama_posyandu ?? 'N/A') }}</td>
                     <td>{{ strtoupper($pendaftaran->rt) }}</td>
                     <td>{{ strtoupper($pendaftaran->rw) }}</td>
                     <td>{{ strtoupper($pendaftaran->dukuh) }}</td>
@@ -100,11 +101,17 @@
 
 
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="17" style="text-align: center; font-weight: bold;">
+                        Tidak ada data pada periode {{ strtoupper($month) }}
+                    </td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
 
-    <p id="infoCetak">Dicetak pada {{ $infoCetak }}</p>
+    <p id="infoCetak">Dicetak pada {{ $infoCetak }}, oleh {{ auth()->user()->username }}</p>
 </body>
 
 </html>

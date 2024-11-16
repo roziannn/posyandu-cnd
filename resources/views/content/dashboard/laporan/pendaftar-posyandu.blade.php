@@ -148,18 +148,14 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="dateRangeModalLabel">Pilih Rentang Tanggal</h5>
+                    <h5 class="modal-title" id="dateRangeModalLabel">Pilih Bulan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="dateRangeForm" method="GET" action="{{ route('pendaftaran.export.pdf') }}">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="startDate" class="form-label">Tanggal Mulai</label>
-                            <input type="date" class="form-control" id="startDate" name="start_date" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="endDate" class="form-label">Tanggal Selesai</label>
-                            <input type="date" class="form-control" id="endDate" name="end_date" required>
+                            <label for="month" class="form-label">Bulan</label>
+                            <input type="month" class="form-control" id="month" name="month" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -173,6 +169,10 @@
 
 
     <script>
+        const today = new Date();
+        const currentMonth = today.toISOString().slice(0, 7);
+        document.getElementById('month').value = currentMonth;
+
         function confirmDelete() {
             return confirm('Apakah Anda yakin ingin menghapus data ini?');
         }

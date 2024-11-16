@@ -11,7 +11,7 @@ class Pendaftaran extends Model
   use HasFactory;
   protected $guarded = ['id'];
   protected $fillable = [
-    'jadwal_id',
+    'lokasi_id',
     'nama_posyandu',
     'nik',
     'nama_balita',
@@ -38,9 +38,9 @@ class Pendaftaran extends Model
     return static::query()
       ->where('username', $userId);
   }
-  public function jadwal()
+  public function lokasi()
   {
-    return $this->belongsTo(Jadwal::class, 'jadwal_id');
+    return $this->belongsTo(Lokasi::class, 'lokasi_id');
   }
   public function anthropometri()
   {

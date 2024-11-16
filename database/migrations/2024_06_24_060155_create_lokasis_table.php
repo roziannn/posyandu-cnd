@@ -11,7 +11,7 @@ return new class extends Migration
    */
   public function up(): void
   {
-    Schema::create('jadwals', function (Blueprint $table) {
+    Schema::create('lokasis', function (Blueprint $table) {
       $table->id();
       $table->string('nama_posyandu', 20);
       $table->enum('dukuh', [
@@ -22,9 +22,6 @@ return new class extends Migration
       ])->default('Cendono');
       $table->string('rt', 2);
       $table->string('rw', 2);
-      $table->date('tanggal')->nullable();
-      $table->time('jam_mulai')->nullable();
-      $table->time('jam_selesai')->nullable();
       $table->string('username', 10);
       $table->timestamps();
     });
@@ -35,6 +32,6 @@ return new class extends Migration
    */
   public function down(): void
   {
-    Schema::dropIfExists('jadwals');
+    Schema::dropIfExists('lokasis');
   }
 };

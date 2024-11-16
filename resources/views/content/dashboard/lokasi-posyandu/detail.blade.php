@@ -1,6 +1,6 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', 'Detail Jadwal Posyandu')
+@section('title', 'Detail Lokasi Posyandu')
 
 @section('content')
 
@@ -29,37 +29,25 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <label class="form-label" for="nama_posyandu">Nama Posyandu</label>
-                        <p>{{ $jadwal->nama_posyandu }}</p>
+                        <p>{{ $lokasi->nama_posyandu }}</p>
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="dukuh">Dukuh</label>
-                        <p>{{ $jadwal->dukuh }}</p>
+                        <p>{{ $lokasi->dukuh }}</p>
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="rt">RT</label>
-                        <p>{{ $jadwal->rt }}</p>
+                        <p>{{ $lokasi->rt }}</p>
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="rw">RW</label>
-                        <p>{{ $jadwal->rw }}</p>
+                        <p>{{ $lokasi->rw }}</p>
                     </div>
-                    {{-- <div class="mb-3">
-                    <label class="form-label" for="tanggal">Tanggal Posyandu</label>
-                    <p>{{ $jadwal->tanggal }}</p>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" for="jam_mulai">Jam Mulai</label>
-                    <p>{{ $jadwal->jam_mulai }}</p>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" for="jam_selesai">Jam Selesai</label>
-                    <p>{{ $jadwal->jam_selesai }}</p>
-                </div> --}}
                     <div class="mb-3">
                         <label class="form-label" for="username">Username</label>
-                        <p>{{ $jadwal->username }}</p>
+                        <p>{{ $lokasi->username }}</p>
                     </div>
-                    <a href="/dashboard/posyandu" class="btn btn-secondary">Kembali</a>
+                    <a href="/dashboard/lokasi-posyandu" class="btn btn-secondary">Kembali</a>
                 </div>
             </div>
         </div>

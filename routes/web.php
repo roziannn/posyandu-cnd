@@ -10,54 +10,17 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\pages\MiscError;
 use App\Http\Controllers\layouts\Container;
 use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\dashboard\Analytics;
-use App\Http\Controllers\layouts\WithoutMenu;
-use App\Http\Controllers\layouts\WithoutNavbar;
-use App\Http\Controllers\user_interface\Alerts;
-use App\Http\Controllers\user_interface\Badges;
-use App\Http\Controllers\user_interface\Footer;
-use App\Http\Controllers\user_interface\Modals;
-use App\Http\Controllers\user_interface\Navbar;
-use App\Http\Controllers\user_interface\Toasts;
-use App\Http\Controllers\user_interface\Buttons;
 use App\Http\Controllers\DashboardUserController;
-use App\Http\Controllers\extended_ui\TextDivider;
-use App\Http\Controllers\user_interface\Carousel;
-use App\Http\Controllers\user_interface\Collapse;
-use App\Http\Controllers\user_interface\Progress;
-use App\Http\Controllers\user_interface\Spinners;
-use App\Http\Controllers\form_elements\BasicInput;
-use App\Http\Controllers\user_interface\Accordion;
-use App\Http\Controllers\user_interface\Dropdowns;
-use App\Http\Controllers\user_interface\Offcanvas;
-use App\Http\Controllers\user_interface\TabsPills;
-use App\Http\Controllers\DashboardJadwalController;
-use App\Http\Controllers\form_elements\InputGroups;
-use App\Http\Controllers\form_layouts\VerticalForm;
-use App\Http\Controllers\user_interface\ListGroups;
-use App\Http\Controllers\user_interface\Typography;
-use App\Http\Controllers\authentications\LoginBasic;
-use App\Http\Controllers\pages\MiscUnderMaintenance;
-use App\Http\Controllers\form_layouts\HorizontalForm;
-use App\Http\Controllers\tables\Basic as TablesBasic;
-use App\Http\Controllers\extended_ui\PerfectScrollbar;
-use App\Http\Controllers\pages\AccountSettingsAccount;
+use App\Http\Controllers\DashboardLokasiController;
 
-use App\Http\Controllers\authentications\RegisterBasic;
 use App\Http\Controllers\DashboardPendaftaranController;
-use App\Http\Controllers\user_interface\TooltipsPopovers;
 use App\Http\Controllers\DashboardAnthropometriController;
-use App\Http\Controllers\pages\AccountSettingsConnections;
-use App\Http\Controllers\pages\AccountSettingsNotifications;
-use App\Http\Controllers\authentications\ForgotPasswordBasic;
 use App\Http\Controllers\DashboardPertumbuhanController;
 use App\Http\Controllers\DataPertumbuhanController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\main_dashboard\DashboardKadesController;
 use App\Http\Controllers\main_dashboard\DashboardOrtuController;
 use App\Http\Controllers\main_dashboard\DashboardPetugasController;
-use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\user_interface\PaginationBreadcrumbs;
 
 
 // landing page
@@ -83,12 +46,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/dashboard/pendaftaran/update/{id}', [DashboardPendaftaranController::class, 'update']);
     Route::get('/dashboard/detailpendaftaran/{id}', [DashboardPendaftaranController::class, 'show']);
 
-    Route::resource('/dashboard/posyandu', DashboardJadwalController::class);
+    Route::resource('/dashboard/lokasi-posyandu', DashboardLokasiController::class);
 
-    Route::get('/dashboard/hapusposyandu/{id}', [DashboardJadwalController::class, 'hapusjadwal']);
-    Route::get('/dashboard/editposyandu/{id}', [DashboardJadwalController::class, 'edit']);
-    Route::put('/dashboard/posyandu/update/{id}', [DashboardJadwalController::class, 'update']);
-    Route::get('/dashboard/detailposyandu/{id}', [DashboardJadwalController::class, 'show']);
+    Route::get('/dashboard/hapusposyandu/{id}', [DashboardLokasiController::class, 'hapusjadwal']);
+    Route::get('/dashboard/editposyandu/{id}', [DashboardLokasiController::class, 'edit']);
+    Route::put('/dashboard/posyandu/update/{id}', [DashboardLokasiController::class, 'update']);
+    Route::get('/dashboard/detailposyandu/{id}', [DashboardLokasiController::class, 'show']);
 
 
     Route::resource('/dashboard/user', DashboardUserController::class);

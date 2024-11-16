@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Jadwal;
+use Carbon\Carbon;
+use App\Models\Lokasi;
 use Illuminate\View\View;
-use App\Traits\Searchable;
 use App\Models\Pendaftaran;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -31,7 +31,7 @@ class LaporanController extends Controller
     }
 
     if ($filterPosyandu) {
-      $pendaftarans = $pendaftarans->whereHas('jadwal', function ($query) use ($filterPosyandu) {
+      $pendaftarans = $pendaftarans->whereHas('lokasi', function ($query) use ($filterPosyandu) {
         $query->where('nama_posyandu', $filterPosyandu);
       });
     }
@@ -39,7 +39,7 @@ class LaporanController extends Controller
     // Pagination
     $pendaftarans = $pendaftarans->paginate(20);
 
-    $posyandu = Jadwal::all();
+    $posyandu = Lokasi::all();
 
     return view('content.dashboard.laporan.pendaftar-posyandu', compact('pendaftarans', 'posyandu'));
   }
@@ -53,26 +53,25 @@ class LaporanController extends Controller
   }
 
   // Method for PDF EXPORT
-  protected $startDate;
-  protected $endDate;
+  protected $month;
 
   public function __construct(Request $request)
   {
-    $this->startDate = $request->query('start_date');
-    $this->endDate = $request->query('end_date');
+    $this->month = $request->query('month');
   }
+
   public function exportPdf()
   {
+    [$year, $month] = explode('-', $this->month);
+    // dd($month);
 
-    $pendaftarans =  Pendaftaran::whereBetween('pendaftarans.created_at', [$this->startDate, $this->endDate])
-      ->join('pertumbuhans', function ($join) {
-        $join->on('pendaftarans.id', '=', 'pertumbuhans.pendaftaran_id')
-          ->whereRaw('pertumbuhans.created_at = (
-                SELECT MAX(p2.created_at)
-                FROM pertumbuhans p2
-                WHERE p2.pendaftaran_id = pertumbuhans.pendaftaran_id
-            )');
-      })
+    // get query data based bulan dan tahun pada tabel pertumbuhans
+    $pendaftarans = Pendaftaran::join('pertumbuhans', function ($join) use ($month, $year) {
+      $join->on('pendaftarans.id', '=', 'pertumbuhans.pendaftaran_id')
+        ->where('pertumbuhans.bulan', $month) // filter kolom bulan
+        ->where('pertumbuhans.tahun', $year) // filter kolom tahun
+      ;
+    })
       ->select(
         'pendaftarans.*',
         'pertumbuhans.berat_badan',
@@ -85,19 +84,16 @@ class LaporanController extends Controller
       ->orderBy('latest_pertumbuhan', 'desc')
       ->get();
 
-    $startDate = \Carbon\Carbon::parse($this->startDate)->format('d/m/Y');
-    $endDate = \Carbon\Carbon::parse($this->endDate)->format('d/m/Y');
-    $infoCetak = \Carbon\Carbon::now()->format('d/m/Y, h:i:s');
+    $formattedMonth = Carbon::createFromDate($year, $month, 1)->format('F Y');
+    $infoCetak = Carbon::now()->format('d/m/Y, h:i:s');
 
     $pdf = Pdf::loadView('content.dashboard.laporan.pendaftaran-pdf', [
       'pendaftarans' => $pendaftarans,
-      'startDate' => $startDate,
-      'endDate' => $endDate,
+      'month' => $formattedMonth,
       'infoCetak' => $infoCetak,
     ])
       ->setPaper('a4', 'landscape');
 
-
-    return $pdf->download('laporan_pendaftaran.pdf');
+    return $pdf->download('laporan_pendaftaran_' . $this->month . '.pdf');
   }
 }

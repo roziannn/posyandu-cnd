@@ -20,11 +20,11 @@
         }
     </style>
 
-    <a href="/dashboard/posyandu" class="btn btn-secondary mb-3">Kembali</a>
+    <a href="/dashboard/lokasi-posyandu" class="btn btn-secondary mb-3">Kembali</a>
 
     <div class="row">
         <div class="col-lg-12">
-            <form method="post" action="/dashboard/posyandu/update/{{ $jadwals->id }}">
+            <form method="post" action="/dashboard/posyandu/update/{{ $lokasis->id }}">
                 @csrf
                 @method('PUT')
 
@@ -40,28 +40,28 @@
                                     <label class="form-label" for="nama_posyandu">Nama Posyandu</label>
                                     <select class="form-control" id="nama_posyandu" name="nama_posyandu">
                                         <option value="">Pilih Nama Posyandu</option>
-                                        <option value="Kipas" {{ $jadwals->nama_posyandu == 'Kipas' ? 'selected' : '' }}>
+                                        <option value="Kipas" {{ $lokasis->nama_posyandu == 'Kipas' ? 'selected' : '' }}>
                                             Kipas</option>
                                         <option value="Asyifa 1"
-                                            {{ $jadwals->nama_posyandu == 'Asyifa 1' ? 'selected' : '' }}>Asyifa 1</option>
+                                            {{ $lokasis->nama_posyandu == 'Asyifa 1' ? 'selected' : '' }}>Asyifa 1</option>
                                         <option value="Asyifa 2"
-                                            {{ $jadwals->nama_posyandu == 'Asyifa 2' ? 'selected' : '' }}>Asyifa 2</option>
+                                            {{ $lokasis->nama_posyandu == 'Asyifa 2' ? 'selected' : '' }}>Asyifa 2</option>
                                         <option value="Srikandi 1"
-                                            {{ $jadwals->nama_posyandu == 'Srikandi 1' ? 'selected' : '' }}>Srikandi 1
+                                            {{ $lokasis->nama_posyandu == 'Srikandi 1' ? 'selected' : '' }}>Srikandi 1
                                         </option>
                                         <option value="Srikandi 2"
-                                            {{ $jadwals->nama_posyandu == 'Srikandi 2' ? 'selected' : '' }}>Srikandi 2
+                                            {{ $lokasis->nama_posyandu == 'Srikandi 2' ? 'selected' : '' }}>Srikandi 2
                                         </option>
                                         <option value="Anggrek"
-                                            {{ $jadwals->nama_posyandu == 'Anggrek' ? 'selected' : '' }}>Anggrek</option>
+                                            {{ $lokasis->nama_posyandu == 'Anggrek' ? 'selected' : '' }}>Anggrek</option>
                                         <option value="Melati Putih 1"
-                                            {{ $jadwals->nama_posyandu == 'Melati Putih 1' ? 'selected' : '' }}>Melati Putih
+                                            {{ $lokasis->nama_posyandu == 'Melati Putih 1' ? 'selected' : '' }}>Melati Putih
                                             1</option>
                                         <option value="Melati Putih 2"
-                                            {{ $jadwals->nama_posyandu == 'Melati Putih 2' ? 'selected' : '' }}>Melati Putih
+                                            {{ $lokasis->nama_posyandu == 'Melati Putih 2' ? 'selected' : '' }}>Melati Putih
                                             2</option>
                                         <option value="Pergiwati"
-                                            {{ $jadwals->nama_posyandu == 'Pergiwati' ? 'selected' : '' }}>Pergiwati
+                                            {{ $lokasis->nama_posyandu == 'Pergiwati' ? 'selected' : '' }}>Pergiwati
                                         </option>
                                     </select>
                                 </div>
@@ -69,13 +69,13 @@
                                     <label class="form-label" for="dukuh">Dukuh</label>
                                     <select class="form-control" id="dukuh" name="dukuh">
                                         <option value="">Pilih Nama Dukuh</option>
-                                        <option value="Cendono" {{ $jadwals->dukuh == 'Cendono' ? 'selected' : '' }}>
+                                        <option value="Cendono" {{ $lokasis->dukuh == 'Cendono' ? 'selected' : '' }}>
                                             Cendono</option>
-                                        <option value="Madu" {{ $jadwals->dukuh == 'Madu' ? 'selected' : '' }}>Madu
+                                        <option value="Madu" {{ $lokasis->dukuh == 'Madu' ? 'selected' : '' }}>Madu
                                         </option>
-                                        <option value="Kawakan" {{ $jadwals->dukuh == 'Kawakan' ? 'selected' : '' }}>
+                                        <option value="Kawakan" {{ $lokasis->dukuh == 'Kawakan' ? 'selected' : '' }}>
                                             Kawakan</option>
-                                        <option value="Dawe" {{ $jadwals->dukuh == 'Dawe' ? 'selected' : '' }}>Dawe
+                                        <option value="Dawe" {{ $lokasis->dukuh == 'Dawe' ? 'selected' : '' }}>Dawe
                                         </option>
                                     </select>
                                 </div>
@@ -83,30 +83,30 @@
                                     <label class="form-label" for="rt">RT</label>
                                     <select class="form-control" id="rt" name="rt">
                                         <option value="">Pilih RT</option>
-                                        <option value="01" {{ $jadwals->rt == '01' ? 'selected' : '' }}>01</option>
-                                        <option value="02" {{ $jadwals->rt == '02' ? 'selected' : '' }}>02</option>
-                                        <option value="03" {{ $jadwals->rt == '03' ? 'selected' : '' }}>03</option>
-                                        <option value="04" {{ $jadwals->rt == '04' ? 'selected' : '' }}>04</option>
-                                        <option value="05" {{ $jadwals->rt == '05' ? 'selected' : '' }}>05</option>
-                                        <option value="06" {{ $jadwals->rt == '06' ? 'selected' : '' }}>06</option>
-                                        <option value="07" {{ $jadwals->rt == '07' ? 'selected' : '' }}>07</option>
-                                        <option value="08" {{ $jadwals->rt == '08' ? 'selected' : '' }}>08</option>
-                                        <option value="09" {{ $jadwals->rt == '09' ? 'selected' : '' }}>09</option>
+                                        <option value="01" {{ $lokasis->rt == '01' ? 'selected' : '' }}>01</option>
+                                        <option value="02" {{ $lokasis->rt == '02' ? 'selected' : '' }}>02</option>
+                                        <option value="03" {{ $lokasis->rt == '03' ? 'selected' : '' }}>03</option>
+                                        <option value="04" {{ $lokasis->rt == '04' ? 'selected' : '' }}>04</option>
+                                        <option value="05" {{ $lokasis->rt == '05' ? 'selected' : '' }}>05</option>
+                                        <option value="06" {{ $lokasis->rt == '06' ? 'selected' : '' }}>06</option>
+                                        <option value="07" {{ $lokasis->rt == '07' ? 'selected' : '' }}>07</option>
+                                        <option value="08" {{ $lokasis->rt == '08' ? 'selected' : '' }}>08</option>
+                                        <option value="09" {{ $lokasis->rt == '09' ? 'selected' : '' }}>09</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="rw">RW</label>
                                     <select class="form-control" id="rw" name="rw">
                                         <option value="">Pilih RW</option>
-                                        <option value="01" {{ $jadwals->rw == '01' ? 'selected' : '' }}>01</option>
-                                        <option value="02" {{ $jadwals->rw == '02' ? 'selected' : '' }}>02</option>
-                                        <option value="03" {{ $jadwals->rw == '03' ? 'selected' : '' }}>03</option>
-                                        <option value="04" {{ $jadwals->rw == '04' ? 'selected' : '' }}>04</option>
-                                        <option value="05" {{ $jadwals->rw == '05' ? 'selected' : '' }}>05</option>
-                                        <option value="06" {{ $jadwals->rw == '06' ? 'selected' : '' }}>06</option>
-                                        <option value="07" {{ $jadwals->rw == '07' ? 'selected' : '' }}>07</option>
-                                        <option value="08" {{ $jadwals->rw == '08' ? 'selected' : '' }}>08</option>
-                                        <option value="09" {{ $jadwals->rw == '09' ? 'selected' : '' }}>09</option>
+                                        <option value="01" {{ $lokasis->rw == '01' ? 'selected' : '' }}>01</option>
+                                        <option value="02" {{ $lokasis->rw == '02' ? 'selected' : '' }}>02</option>
+                                        <option value="03" {{ $lokasis->rw == '03' ? 'selected' : '' }}>03</option>
+                                        <option value="04" {{ $lokasis->rw == '04' ? 'selected' : '' }}>04</option>
+                                        <option value="05" {{ $lokasis->rw == '05' ? 'selected' : '' }}>05</option>
+                                        <option value="06" {{ $lokasis->rw == '06' ? 'selected' : '' }}>06</option>
+                                        <option value="07" {{ $lokasis->rw == '07' ? 'selected' : '' }}>07</option>
+                                        <option value="08" {{ $lokasis->rw == '08' ? 'selected' : '' }}>08</option>
+                                        <option value="09" {{ $lokasis->rw == '09' ? 'selected' : '' }}>09</option>
                                     </select>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Update</button>
@@ -121,17 +121,17 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="tanggal">Tanggal Posyandu</label>
                                     <input type="date" id="tanggal" name="tanggal" class="form-control"
-                                        value="{{ $jadwals->tanggal }}">
+                                        value="{{ $lokasis->tanggal }}">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="jam_mulai">Jam Mulai</label>
                                     <input type="time" id="jam_mulai" name="jam_mulai" class="form-control"
-                                        value="{{ $jadwals->jam_mulai }}">
+                                        value="{{ $lokasis->jam_mulai }}">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="jam_selesai">Jam Selesai</label>
                                     <input type="time" id="jam_selesai" name="jam_selesai" class="form-control"
-                                        value="{{ $jadwals->jam_selesai }}">
+                                        value="{{ $lokasis->jam_selesai }}">
                                 </div>
                                 <button type="submit" class="btn btn-primary">Update</button>
                             </div>

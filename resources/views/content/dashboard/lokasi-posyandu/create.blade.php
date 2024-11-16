@@ -20,11 +20,11 @@
         }
     </style>
 
-    <a href="/dashboard/posyandu" class="btn btn-secondary mb-3">Kembali</a>
+    <a href="/dashboard/lokasi-posyandu" class="btn btn-secondary mb-3">Kembali</a>
 
     <div class="row">
         <div class="col-lg-12">
-            <form method="post" action="/dashboard/posyandu" enctype="multipart/form-data">
+            <form method="post" action="/dashboard/lokasi-posyandu" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <!-- Kolom Kiri -->

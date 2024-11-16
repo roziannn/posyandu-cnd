@@ -37,10 +37,10 @@
       ]
     },
     {
-      "url": "dashboard/posyandu",
-      "name": "Posyandu",
+      "url": "dashboard/lokasi-posyandu",
+      "name": "Lokasi Posyandu",
       "icon": "menu-icon tf-icons bi bi-calendar-event",
-      "slug": "dashboard-posyandu",
+      "slug": "dashboard-lokasi-posyandu",
       "roles": [
         "petugas"
       ]
