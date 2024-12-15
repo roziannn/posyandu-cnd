@@ -67,9 +67,9 @@ class DashboardUserController extends Controller
   public function store(Request $request)
   {
     $validatedData = $request->validate([
-      'username' => ['required', 'min:3', 'max:255', 'unique:users'],
+      'username' => ['required', 'min:3', 'max:100', 'unique:users'],
       'email' => 'required|email|unique:users',
-      'password' => 'required|min:5|max:255',
+      'password' => 'required|min:5|max:100',
       'role' => 'required|string|max:20'
     ]);
 
@@ -123,8 +123,8 @@ class DashboardUserController extends Controller
   public function update(Request $request, string $id)
   {
     $request->validate([
-      'username' => 'required|string|max:255',
-      'email' => 'required|email|max:255',
+      'username' => 'required|string|max:100',
+      'email' => 'required|email|max:100',
       'password' => 'nullable|string|min:8|confirmed', // Tambahkan 'confirmed' untuk validasi password konfirmasi
       'role' => 'required|string|in:petugas,ortu,bidan,kades',
     ]);

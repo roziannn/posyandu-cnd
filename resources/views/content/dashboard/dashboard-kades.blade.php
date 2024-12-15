@@ -113,10 +113,9 @@
                 <div class="d-flex align-items-end row">
                     <div class="col-sm-7">
                         <div class="card-body">
-                            <h5 class="card-title text-primary">Selamat datang {{ auth()->user()->username }}
+                            <h5 class="card-title text-primary">Selamat datang {{ Str::upper(auth()->user()->username) }}
                             </h5>
-                            <p class="mb-4">You have done <span class="fw-medium">72%</span> more sales today. Check your
-                                new badge in your profile.</p>
+                            <h6 class="mb-3">{{ $now }}</h6>
                         </div>
                     </div>
                     <div class="col-sm-5 text-center text-sm-left">

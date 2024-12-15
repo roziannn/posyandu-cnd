@@ -16,7 +16,7 @@ return new class extends Migration
       $table->foreignId('pendaftaran_id')->constrained('pendaftarans')->onDelete('cascade');
       $table->string('fromPosyandu');
       $table->string('toPosyandu');
-      $table->string('username', 255);
+      $table->string('username', 100);
       $table->timestamps();
     });
   }

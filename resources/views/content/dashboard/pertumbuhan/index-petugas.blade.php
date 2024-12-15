@@ -40,7 +40,7 @@
                         </p>
                     </div>
                     <div class="col-md-6 mb-1">
-                        <p><strong>Usia (bulan):</strong> {{ $data->usia ?? 'Tidak diketahui' }} bulan</p>
+                        <p><strong>Usia saat ini:</strong> {{ $data->usia ?? 'Tidak diketahui' }} bulan</p>
                     </div>
                     <div class="col-md-6 mb-1">
                         <p><strong>Jenis Kelamin:</strong>
@@ -49,8 +49,8 @@
 
                     </div>
                     <div class="col-md-6 mb-1">
-                        <p><strong>Berat/Tinggi Badan:</strong>
-                            {{ $data->berat_badan ?? 'Tidak diketahui' }}kg/{{ $data->tinggi_badan ?? 'Tidak diketahui' }}cm
+                        <p><strong>BB/TB terakhir:</strong>
+                            {{ $lastBbTb->berat_badan ?? 'Tidak diketahui' }}kg/{{ $lastBbTb->tinggi_badan ?? 'Tidak diketahui' }}cm
                         </p>
                     </div>
                 </div>
@@ -157,8 +157,7 @@
 
                         var zScores = last12Months.map(month => {
                             var record = growthData.find(data => data.month === month);
-                            return record ? parseFloat(parseFloat(record.z_score).toFixed(2)) :
-                                null;
+                            return record ? parseFloat(parseFloat(record.z_score).toFixed(2)) : null;
                         });
 
                         var options = {
@@ -167,20 +166,54 @@
                                 type: "line",
                             },
                             dataLabels: {
-                                enabled: true
+                                enabled: true,
+                                style: {
+                                    fontSize: '10px',
+                                    colors: ['#333']
+                                }
+                            },
+                            markers: {
+                                size: 5,
+                                colors: ['#ffffff'],
+                                strokeColors: '#0056b3', // Garis biru solid
+                                strokeWidth: 3,
+                                hover: {
+                                    size: 7
+                                }
                             },
                             series: [{
                                 name: "Z-Score",
                                 data: zScores,
-                                color: 'rgba(84, 157, 255, 0.8)'
+                                color: '#0056b3', // Warna biru solid
                             }],
                             stroke: {
                                 curve: 'smooth',
-                                width: [3]
+                                width: 4 // Menambah ketebalan garis
+                            },
+                            grid: {
+                                borderColor: '#e7e7e7',
+                                row: {
+                                    colors: ['#f3f3f3', 'transparent'], // alternating row colors
+                                    opacity: 0.5
+                                },
+                                xaxis: {
+                                    lines: {
+                                        show: false
+                                    }
+                                },
+                                yaxis: {
+                                    lines: {
+                                        show: true
+                                    }
+                                }
                             },
                             title: {
                                 text: 'Grafik Pertumbuhan Balita 6 Bulan Terakhir',
-                                align: 'left'
+                                align: 'left',
+                                style: {
+                                    fontSize: '16px',
+                                    fontWeight: 'bold'
+                                }
                             },
                             xaxis: {
                                 categories: last12Months,
@@ -189,6 +222,11 @@
                                     style: {
                                         fontSize: '12px',
                                         fontWeight: 'bold'
+                                    }
+                                },
+                                labels: {
+                                    style: {
+                                        fontSize: '12px',
                                     }
                                 }
                             },
@@ -200,6 +238,9 @@
                                         if (value > 3) return "Tinggi";
                                         if (value > -2 && value <= 3) return "Normal";
                                         return "Stunting";
+                                    },
+                                    style: {
+                                        fontSize: '12px',
                                     }
                                 },
                                 title: {

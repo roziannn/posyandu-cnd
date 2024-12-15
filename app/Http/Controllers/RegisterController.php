@@ -10,7 +10,7 @@ class RegisterController extends Controller
 {
     public function index()
     {
-        return view('content.authentications.auth-register-basic',[
+        return view('content.authentications.auth-register-basic', [
             'title' => 'Register-Basic'
         ]);
     }
@@ -18,9 +18,9 @@ class RegisterController extends Controller
     public function store(Request $request)
     {
         $validateData = $request->validate([
-            'username' => ['required', 'min:3', 'max:255', 'unique:users'],
+            'username' => ['required', 'min:3', 'max:100', 'unique:users'],
             'email' => 'required|email:dns|unique:users',
-            'password' => 'required|min:5|max:255'
+            'password' => 'required|min:5|max:100'
         ]);
 
         // Hash the password before storing it

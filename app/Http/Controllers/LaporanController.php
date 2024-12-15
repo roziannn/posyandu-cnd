@@ -65,7 +65,7 @@ class LaporanController extends Controller
     [$year, $month] = explode('-', $this->month);
     // dd($month);
 
-    // get query data based bulan dan tahun pada tabel pertumbuhans
+    // get query data based bulan & tahun pada tabel pertumbuhans
     $pendaftarans = Pendaftaran::join('pertumbuhans', function ($join) use ($month, $year) {
       $join->on('pendaftarans.id', '=', 'pertumbuhans.pendaftaran_id')
         ->where('pertumbuhans.bulan', $month) // filter kolom bulan
@@ -85,12 +85,15 @@ class LaporanController extends Controller
       ->get();
 
     $formattedMonth = Carbon::createFromDate($year, $month, 1)->format('F Y');
-    $infoCetak = Carbon::now()->format('d/m/Y, h:i:s');
+    $infoCetak = Carbon::now('Asia/Jakarta')->format('d/m/Y, h:i:s');
+
+    $tglSignature = Carbon::now('Asia/Jakarta')->format('d F Y');
 
     $pdf = Pdf::loadView('content.dashboard.laporan.pendaftaran-pdf', [
       'pendaftarans' => $pendaftarans,
       'month' => $formattedMonth,
       'infoCetak' => $infoCetak,
+      'tglSignature' => $tglSignature
     ])
       ->setPaper('a4', 'landscape');
 

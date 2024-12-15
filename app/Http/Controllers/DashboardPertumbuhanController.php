@@ -165,10 +165,13 @@ class DashboardPertumbuhanController extends Controller
       ];
     })->toArray();
 
-    // gap 12 bulan trakhir
+    // get latest berat dan tb trkhir balita
+    $lastBbTb = $pertumbuhanRecords->last();
+
+    // gap 6 bulan trakhir
     $currentMonth = Carbon::now();
     $last12Months = [];
-    for ($i = 5; $i >= 0; $i--) { //ambil 6 dlu
+    for ($i = 6; $i >= 0; $i--) { //ambil 6 dlu
       $last12Months[] = $currentMonth->copy()->subMonths($i)->format('m/Y');
     }
 
@@ -177,7 +180,8 @@ class DashboardPertumbuhanController extends Controller
       'zScoreLimits',
       'growthData',
       'last12Months',
-      'pertumbuhanRecords'
+      'pertumbuhanRecords',
+      'lastBbTb'
     ));
   }
 }

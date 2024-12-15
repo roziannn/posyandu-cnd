@@ -58,8 +58,8 @@ class DashboardPendaftaranController extends Controller
    */
   public function create()
   {
-    // $posyanduList = Lokasi::pluck('nama_posyandu', 'id');
     $posyanduList = Lokasi::select('id', 'nama_posyandu', 'dukuh', 'rt', 'rw')->get();
+    // dd($posyanduList);
 
     // dd($posyanduList);
     return view('content.dashboard.pendaftaran.create', compact('posyanduList'));
@@ -90,8 +90,8 @@ class DashboardPendaftaranController extends Controller
       'jenis_kelamin' => 'required|string|max:50',
       'bb_lahir' => 'required|numeric|min:0|max:99.99',
       'tb_lahir' => 'required|numeric|min:0|max:99.99',
-      'email_ortu' => 'required|string|max:255',
-      'nama_ortu' => 'required|string|max:255',
+      'email_ortu' => 'required|string|max:100',
+      'nama_ortu' => 'required|string|max:100',
       'no_telepon' => 'required|string|max:15',
       'dukuh' => 'required|string|max:20',
       'rt' => 'required|string|max:3',

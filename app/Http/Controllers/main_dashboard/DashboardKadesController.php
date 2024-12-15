@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\main_dashboard;
 
 use App\Models\Pendaftaran;
+use App\Models\Pertumbuhan;
 use Illuminate\Http\Request;
 use App\Models\Anthropometri;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Pertumbuhan;
 
 class DashboardKadesController extends Controller
 {
@@ -19,6 +20,7 @@ class DashboardKadesController extends Controller
 
     $currentYear = date('Y');
 
+    $now = Carbon::now('Asia/Jakarta')->format('l, d/m/y, h:i:s');
 
     $stuntingData = Pertumbuhan::select(DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(*) as count'))
       ->where('status_stunting', 'Stunting')
@@ -46,6 +48,6 @@ class DashboardKadesController extends Controller
       'normal' => $normalCounts
     ];
 
-    return view('content.dashboard.dashboard-kades', compact('totalLaki', 'totalPerempuan', 'data'));
+    return view('content.dashboard.dashboard-kades', compact('totalLaki', 'totalPerempuan', 'data', 'now'));
   }
 }

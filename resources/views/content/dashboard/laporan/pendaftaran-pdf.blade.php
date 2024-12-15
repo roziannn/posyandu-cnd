@@ -35,14 +35,22 @@
         #judul {
             text-align: center;
         }
+
+        .text-center {
+            text-align: center;
+        }
     </style>
 </head>
 
 <body>
-    <h5 id="judul">LAPORAN POSYANDU
-        <span>PERIODE {{ strtoupper($month) }}
-        </span>
-    </h5>
+    <div class="text-center">
+        <img src="{{ public_path('assets/img/logo-posyandu.png') }}" width="80" alt="">
+
+        <h5 id="judul">POSYANDU DESA CENDONO KABUPATEN KUDUS <br> <br>
+            <span>LAPORAN KEGIATAN POSYANDU PERIODE {{ strtoupper($month) }}
+            </span>
+        </h5>
+    </div>
     <table>
         <thead>
             <tr>
@@ -111,7 +119,19 @@
         </tbody>
     </table>
 
-    <p id="infoCetak">Dicetak pada {{ $infoCetak }}, oleh {{ auth()->user()->username }}</p>
+    <div style="position: relative; width: 100%; font-family: Arial, sans-serif; font-size: 12px;">
+        <p id="infoCetak" style="position: absolute; top: 10px; right: 10px; text-align: right; margin: 0;">
+            Dicetak pada {{ $infoCetak }}, oleh {{ auth()->user()->username }}
+        </p>
+        <div style="text-align: right; margin-top: 80px; margin-right: 10px;">
+            <P style="margin: 0;">Kudus, {{ $tglSignature }}</P>
+            <p>Bidan Posyandu Cendono</p>
+            <br><br><br><br>
+            <strong>Dian Kurnia Ariyani, Amd. Keb</strong><br>
+            NIP. 19870116 201704 2 003
+        </div>
+    </div>
+
 </body>
 
 </html>
